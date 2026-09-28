@@ -1,1 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>EMI Calculator - SmartCalc</title>
+<meta name="description" content="Calculate your monthly loan EMI, total interest and total repayment with SmartCalc.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header h1 {
+    margin-top: 15px;
+    font-size: 30px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 15px;
+}
+
+.calculator {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 18px;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+}
+
+.result-box {
+    background: #eef4ff;
+    padding: 18px;
+    border-radius: 15px;
+    margin-top: 12px;
+}
+
+.result-box h2 {
+    color: #2563eb;
+    margin-bottom: 8px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #dbe4f0;
+}
+
+.result-row:last-child {
+    border-bottom: none;
+}
+
+.explanation {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.explanation h2 {
+    margin-bottom: 12px;
+}
+
+.explanation p {
+    line-height: 1.7;
+    color: #4b5563;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 15px;
+    color: #6b7280;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin-top: 15px;
+    }
+
+    .calculator {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html">← Back to SmartCalc</a>
+
+<h1>💰 EMI Calculator</h1>
+
+<p>Calculate your monthly loan payment</p>
+
+</header>
+
+<div class="container">
+
+<div class="calculator">
+
+<label for="loan">Loan Amount (₹)</label>
+<input
+    type="number"
+    id="loan"
+    placeholder="Example: 500000"
+    min="0"
+>
+
+<label for="rate">Annual Interest Rate (%)</label>
+<input
+    type="number"
+    id="rate"
+    placeholder="Example: 8.5"
+    step="0.01"
+    min="0"
+>
+
+<label for="years">Loan Tenure (Years)</label>
+<input
+    type="number"
+    id="years"
+    placeholder="Example: 5"
+    min="1"
+>
+
+<button onclick="calculateEMI()">
+    Calculate EMI
+</button>
+
+<div class="result" id="result">
+
+    <div class="result-box">
+
+        <h2 id="monthlyEMI">₹0</h2>
+        <p>Monthly EMI</p>
+
+        <div class="result-row">
+            <span>Principal Amount</span>
+            <strong id="principal">₹0</strong>
+        </div>
+
+        <div class="result-row">
+            <span>Total Interest</span>
+            <strong id="interest">₹0</strong>
+        </div>
+
+        <div class="result-row">
+            <span>Total Payment</span>
+            <strong id="total">₹0</strong>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div class="explanation">
+
+<h2>What is EMI?</h2>
+
+<p>
+EMI stands for Equated Monthly Instalment. It is the fixed amount
+you generally pay every month toward a loan. The EMI includes both
+the principal amount and the interest charged by the lender.
+</p>
+
+<br>
+
+<h2>How is EMI calculated?</h2>
+
+<p>
+The calculator uses the loan amount, annual interest rate and loan
+tenure to calculate the monthly payment. The total interest is then
+calculated from the total payments over the loan period.
+</p>
+
+<br>
+
+<h2>Understanding your result</h2>
+
+<p>
+<strong>Monthly EMI</strong> is the estimated amount payable each month.
+<strong>Total Interest</strong> is the estimated interest paid over the
+full loan period. <strong>Total Payment</strong> is the principal plus
+the total interest.
+</p>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 SmartCalc — Free Online Calculators
+</footer>
+
+
+<script>
+
+function calculateEMI() {
+
+    const loan = parseFloat(
+        document.getElementById("loan").value
+    );
+
+    const annualRate = parseFloat(
+        document.getElementById("rate").value
+    );
+
+    const years = parseFloat(
+        document.getElementById("years").value
+    );
+
+    if (
+        isNaN(loan) ||
+        isNaN(annualRate) ||
+        isNaN(years) ||
+        loan <= 0 ||
+        annualRate < 0 ||
+        years <= 0
+    ) {
+        alert("Please enter valid loan details.");
+        return;
+    }
+
+    const months = years * 12;
+
+    const monthlyRate = annualRate / 12 / 100;
+
+    let emi;
+
+    if (monthlyRate === 0) {
+
+        emi = loan / months;
+
+    } else {
+
+        emi =
+            loan *
+            monthlyRate *
+            Math.pow(1 + monthlyRate, months) /
+            (Math.pow(1 + monthlyRate, months) - 1);
+
+    }
+
+    const totalPayment = emi * months;
+
+    const totalInterest = totalPayment - loan;
+
+    document.getElementById("monthlyEMI").textContent =
+        formatMoney(emi);
+
+    document.getElementById("principal").textContent =
+        formatMoney(loan);
+
+    document.getElementById("interest").textContent =
+        formatMoney(totalInterest);
+
+    document.getElementById("total").textContent =
+        formatMoney(totalPayment);
+
+    document.getElementById("result").style.display = "block";
+}
+
+
+function formatMoney(amount) {
+
+    return "₹" + amount.toLocaleString(
+        "en-IN",
+        {
+            maximumFractionDigits: 2
+        }
+    );
+
+}
+
+</script>
+
+</body>
+  </html>
