@@ -1,1 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>SmartCalc - Free Online Calculators</title>
+
+<meta name="description" content="Free online calculators for finance, health, math, dates and unit conversions.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 25px 16px 35px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 22px;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 15px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: #111827;
+    color: white;
+    padding: 0 20px;
+    font-size: 18px;
+}
+
+/* MAIN */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+.section-title {
+    font-size: 24px;
+    margin: 15px 0;
+}
+
+/* POPULAR */
+.popular {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.popular-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #172033;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+    transition: 0.2s;
+}
+
+.popular-card:hover {
+    transform: translateY(-4px);
+}
+
+.icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.popular-card h3 {
+    margin-bottom: 5px;
+}
+
+.popular-card p {
+    font-size: 13px;
+    color: #667085;
+}
+
+/* CATEGORIES */
+.category {
+    margin-bottom: 35px;
+}
+
+.category h2 {
+    margin-bottom: 15px;
+}
+
+.calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.calc-card {
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    color: #172033;
+    transition: 0.2s;
+}
+
+.calc-card:hover {
+    border-color: #2563eb;
+    transform: translateY(-3px);
+}
+
+.calc-card span {
+    font-size: 26px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.calc-card h3 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.calc-card p {
+    color: #667085;
+    font-size: 13px;
+}
+
+/* FOOTER */
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    margin-top: 20px;
+}
+
+footer p {
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+    .logo {
+        font-size: 26px;
+    }
+
+    .section-title {
+        font-size: 21px;
+    }
+
+    .popular {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .calc-card {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">🧮 SmartCalc</div>
+
+    <div class="tagline">
+        Free Online Calculators for Everyday Life
+    </div>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="search"
+            placeholder="Search calculators..."
+            onkeyup="searchCalculators()"
+        >
+        <button>🔍</button>
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- POPULAR -->
+
+    <h2 class="section-title">⭐ Popular Calculators</h2>
+
+    <div class="popular">
+
+        <a class="popular-card" href="#">
+            <div class="icon">🏦</div>
+            <h3>EMI Calculator</h3>
+            <p>Calculate monthly loan payments.</p>
+        </a>
+
+        <a class="popular-card" href="#">
+            <div class="icon">💰</div>
+            <h3>SIP Calculator</h3>
+            <p>Estimate your SIP investment returns.</p>
+        </a>
+
+        <a class="popular-card" href="#">
+            <div class="icon">❤️</div>
+            <h3>BMI Calculator</h3>
+            <p>Calculate your Body Mass Index.</p>
+        </a>
+
+        <a class="popular-card" href="#">
+            <div class="icon">📅</div>
+            <h3>Age Calculator</h3>
+            <p>Calculate your exact age.</p>
+        </a>
+
+    </div>
+
+
+    <!-- FINANCIAL -->
+
+    <section class="category">
+
+        <h2>💰 Financial Calculators</h2>
+
+        <div class="calculator-grid">
+
+            <a class="calc-card" href="#">
+                <span>🏦</span>
+                <h3>EMI Calculator</h3>
+                <p>Calculate monthly EMI.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>📈</span>
+                <h3>SIP Calculator</h3>
+                <p>Calculate investment returns.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>💳</span>
+                <h3>Loan Calculator</h3>
+                <p>Calculate loan payments.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>🏠</span>
+                <h3>Mortgage Calculator</h3>
+                <p>Estimate mortgage payments.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>🧾</span>
+                <h3>Income Tax Calculator</h3>
+                <p>Estimate income tax.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>💹</span>
+                <h3>Compound Interest</h3>
+                <p>Calculate compound growth.</p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- HEALTH -->
+
+    <section class="category">
+
+        <h2>❤️ Health Calculators</h2>
+
+        <div class="calculator-grid">
+
+            <a class="calc-card" href="#">
+                <span>⚖️</span>
+                <h3>BMI Calculator</h3>
+                <p>Calculate Body Mass Index.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>🔥</span>
+                <h3>Calorie Calculator</h3>
+                <p>Estimate daily calorie needs.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>🤰</span>
+                <h3>Pregnancy Due Date</h3>
+                <p>Estimate a due date.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>⚖️</span>
+                <h3>Ideal Weight</h3>
+                <p>Estimate a healthy weight range.</p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- MATH -->
+
+    <section class="category">
+
+        <h2>🧮 Math Calculators</h2>
+
+        <div class="calculator-grid">
+
+            <a class="calc-card" href="#">
+                <span>🔬</span>
+                <h3>Scientific Calculator</h3>
+                <p>Perform advanced calculations.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>％</span>
+                <h3>Percentage Calculator</h3>
+                <p>Calculate percentages easily.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>½</span>
+                <h3>Fraction Calculator</h3>
+                <p>Calculate fractions.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>➗</span>
+                <h3>Ratio Calculator</h3>
+                <p>Calculate and simplify ratios.</p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- DATE -->
+
+    <section class="category">
+
+        <h2>📅 Date Calculators</h2>
+
+        <div class="calculator-grid">
+
+            <a class="calc-card" href="#">
+                <span>🎂</span>
+                <h3>Age Calculator</h3>
+                <p>Calculate your age.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>📆</span>
+                <h3>Date Difference</h3>
+                <p>Find the difference between dates.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>⏳</span>
+                <h3>Countdown</h3>
+                <p>Count down to an important date.</p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONVERTERS -->
+
+    <section class="category">
+
+        <h2>🔄 Unit Converters</h2>
+
+        <div class="calculator-grid">
+
+            <a class="calc-card" href="#">
+                <span>📏</span>
+                <h3>Length Converter</h3>
+                <p>Convert length units.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>⚖️</span>
+                <h3>Weight Converter</h3>
+                <p>Convert weight units.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>🌡️</span>
+                <h3>Temperature Converter</h3>
+                <p>Convert temperature units.</p>
+            </a>
+
+            <a class="calc-card" href="#">
+                <span>🚗</span>
+                <h3>Speed Converter</h3>
+                <p>Convert speed units.</p>
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <h2>🧮 SmartCalc</h2>
+
+    <p>Free online calculators for everyone.</p>
+
+    <p>© 2026 SmartCalc</p>
+
+</footer>
+
+
+<script>
+
+function searchCalculators() {
+
+    let search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    let cards =
+        document.querySelectorAll(".calc-card, .popular-card");
+
+    cards.forEach(function(card) {
+
+        let text =
+            card.innerText.toLowerCase();
+
+        if (text.includes(search)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+  </html
