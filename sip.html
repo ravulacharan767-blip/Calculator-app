@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SIP Calculator - SmartCalc</title>
+<meta name="description" content="Calculate SIP investment returns, total investment and estimated wealth with SmartCalc.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header h1 {
+    margin-top: 20px;
+    font-size: 32px;
+}
+
+header p {
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 15px;
+}
+
+.calculator {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 17px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    background: #eef4ff;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.result h2 {
+    color: #2563eb;
+    margin-bottom: 15px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #dbe4f5;
+    font-size: 17px;
+}
+
+.result-row:last-child {
+    border-bottom: none;
+}
+
+.total {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.info {
+    background: white;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 18px;
+    line-height: 1.6;
+}
+
+.info h2 {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 27px;
+    }
+
+    .calculator {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html">← Back to SmartCalc</a>
+
+<h1>💰 SIP Calculator</h1>
+
+<p>Calculate your SIP investment returns</p>
+
+</header>
+
+<div class="container">
+
+<div class="calculator">
+
+<label for="monthly">Monthly Investment (₹)</label>
+<input type="number" id="monthly" value="5000" min="0">
+
+<label for="rate">Expected Annual Return (%)</label>
+<input type="number" id="rate" value="12" min="0" step="0.1">
+
+<label for="years">Investment Period (Years)</label>
+<input type="number" id="years" value="10" min="1">
+
+<button onclick="calculateSIP()">Calculate SIP</button>
+
+<div class="result" id="result">
+
+<h2>SIP Result</h2>
+
+<div class="result-row">
+<span>Total Investment</span>
+<strong id="investment">₹0</strong>
+</div>
+
+<div class="result-row">
+<span>Estimated Returns</span>
+<strong id="returns">₹0</strong>
+</div>
+
+<div class="result-row">
+<span>Total Value</span>
+<strong class="total" id="total">₹0</strong>
+</div>
+
+</div>
+
+</div>
+
+<div class="info">
+
+<h2>What is a SIP Calculator?</h2>
+
+<p>
+A SIP calculator estimates the future value of regular investments
+made through a Systematic Investment Plan (SIP).
+</p>
+
+<p>
+Enter your monthly investment, expected annual return and investment
+period to estimate your total investment, potential returns and
+future value.
+</p>
+
+<p>
+The result is an estimate only. Actual investment returns can be
+different because market returns are not guaranteed.
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+function calculateSIP() {
+
+    const monthly = Number(document.getElementById("monthly").value);
+    const annualRate = Number(document.getElementById("rate").value);
+    const years = Number(document.getElementById("years").value);
+
+    if (monthly <= 0 || annualRate < 0 || years <= 0) {
+        alert("Please enter valid values.");
+        return;
+    }
+
+    const months = years * 12;
+    const monthlyRate = annualRate / 12 / 100;
+
+    let futureValue;
+
+    if (monthlyRate === 0) {
+        futureValue = monthly * months;
+    } else {
+        futureValue =
+            monthly *
+            ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) *
+            (1 + monthlyRate);
+    }
+
+    const totalInvestment = monthly * months;
+    const estimatedReturns = futureValue - totalInvestment;
+
+    document.getElementById("investment").textContent =
+        formatCurrency(totalInvestment);
+
+    document.getElementById("returns").textContent =
+        formatCurrency(estimatedReturns);
+
+    document.getElementById("total").textContent =
+        formatCurrency(futureValue);
+
+    document.getElementById("result").style.display = "block";
+}
+
+function formatCurrency(number) {
+    return "₹" + number.toLocaleString("en-IN", {
+        maximumFractionDigits: 2
+    });
+}
+
+calculateSIP();
+
+</script>
+
+</body>
+</html>
