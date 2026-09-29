@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Discount Calculator - SmartCalc</title>
+
+  <meta name="description"
+        content="Calculate discount amount and final price with SmartCalc Discount Calculator.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      opacity: 0.95;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 650px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      color: #2563eb;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .error {
+      display: none;
+      color: #dc2626;
+      background: #fef2f2;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      background: #eff6ff;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .result h3 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 15px;
+    }
+
+    .result-box {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .result-label {
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+
+    .result-value {
+      color: #2563eb;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .info p {
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .formula {
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.8;
+      margin: 15px 0;
+    }
+
+    .note {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      padding: 14px;
+      border-radius: 6px;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      margin-top: 20px;
+    }
+
+    footer p {
+      color: #cbd5e1;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 26px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🏷️ Discount Calculator</h1>
+    <p>Calculate discount amount and final price</p>
+  </header>
+
+
+  <main class="container">
+
+    <!-- Calculator -->
+    <section class="card">
+
+      <h2>Calculate Discount</h2>
+
+      <label for="price">Original Price</label>
+
+      <input
+        type="number"
+        id="price"
+        placeholder="Enter original price"
+        min="0"
+        step="any"
+      >
+
+      <label for="discount">Discount (%)</label>
+
+      <input
+        type="number"
+        id="discount"
+        placeholder="Enter discount percentage"
+        min="0"
+        max="100"
+        step="any"
+      >
+
+      <div id="error" class="error"></div>
+
+      <div class="buttons">
+
+        <button
+          class="calculate"
+          onclick="calculateDiscount()">
+          Calculate
+        </button>
+
+        <button
+          class="reset"
+          onclick="resetCalculator()">
+          Reset
+        </button>
+
+      </div>
+
+
+      <!-- Result -->
+      <div id="result" class="result">
+
+        <h3>Calculation Result</h3>
+
+        <div class="result-box">
+
+          <div class="result-label">
+            Discount Amount
+          </div>
+
+          <div id="discountAmount" class="result-value">
+            ₹0.00
+          </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+          <div class="result-label">
+            Final Price
+          </div>
+
+          <div id="finalPrice" class="result-value">
+            ₹0.00
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Information -->
+    <section class="card info">
+
+      <h2>📚 What is a Discount?</h2>
+
+      <p>
+        A discount is a reduction from the original price of
+        a product or service. Discounts are usually expressed
+        as a percentage.
+      </p>
+
+      <div class="formula">
+        Discount Amount =
+        Original Price × Discount ÷ 100
+      </div>
+
+      <div class="formula">
+        Final Price =
+        Original Price − Discount Amount
+      </div>
+
+    </section>
+
+
+    <!-- Example -->
+    <section class="card info">
+
+      <h2>💡 Example</h2>
+
+      <p>
+        Suppose a product costs ₹1,000 and has a 20% discount.
+      </p>
+
+      <div class="formula">
+        Discount Amount = ₹1,000 × 20 ÷ 100
+        <br>
+        Discount Amount = ₹200
+        <br><br>
+        Final Price = ₹1,000 − ₹200
+        <br>
+        Final Price = ₹800
+      </div>
+
+    </section>
+
+
+    <!-- Uses -->
+    <section class="card info">
+
+      <h2>🛍️ Where Are Discounts Used?</h2>
+
+      <p>
+        Discount calculations are commonly used for:
+      </p>
+
+      <div class="formula">
+        Shopping<br>
+        Online Sales<br>
+        Store Offers<br>
+        Coupons<br>
+        Seasonal Sales<br>
+        Special Promotions
+      </div>
+
+    </section>
+
+
+    <!-- Important -->
+    <section class="card info">
+
+      <h2>ℹ️ Important Information</h2>
+
+      <div class="note">
+        The discount percentage must be between
+        <strong>0% and 100%</strong>.
+        Enter the original price before calculating the
+        discounted price.
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <h2>🧮 SmartCalc</h2>
+
+    <p>Free online calculators for everyone.</p>
+
+    <p>© 2026 SmartCalc</p>
+
+  </footer>
+
+
+  <script>
+
+    function calculateDiscount() {
+
+      const priceInput =
+        document.getElementById("price").value;
+
+      const discountInput =
+        document.getElementById("discount").value;
+
+      const error =
+        document.getElementById("error");
+
+      const result =
+        document.getElementById("result");
+
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+
+      // Empty validation
+      if (
+        priceInput === "" ||
+        discountInput === ""
+      ) {
+
+        error.textContent =
+          "Please enter both original price and discount.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+
+      const price =
+        parseFloat(priceInput);
+
+      const discount =
+        parseFloat(discountInput);
+
+
+      // Number validation
+      if (
+        !isFinite(price) ||
+        !isFinite(discount)
+      ) {
+
+        error.textContent =
+          "Please enter valid numbers.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+
+      // Price validation
+      if (price <= 0) {
+
+        error.textContent =
+          "Original price must be greater than 0.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+
+      // Discount validation
+      if (
+        discount < 0 ||
+        discount > 100
+      ) {
+
+        error.textContent =
+          "Discount must be between 0% and 100%.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+
+      // Calculate discount
+      const discountAmount =
+        (price * discount) / 100;
+
+
+      // Calculate final price
+      const finalPrice =
+        price - discountAmount;
+
+
+      // Display results
+      document.getElementById("discountAmount")
+        .textContent =
+        "₹" + discountAmount.toFixed(2);
+
+      document.getElementById("finalPrice")
+        .textContent =
+        "₹" + finalPrice.toFixed(2);
+
+
+      result.style.display = "block";
+
+    }
+
+
+    function resetCalculator() {
+
+      document.getElementById("price").value = "";
+
+      document.getElementById("discount").value = "";
+
+      document.getElementById("error").style.display =
+        "none";
+
+      document.getElementById("result").style.display =
+        "none";
+
+      document.getElementById("discountAmount")
+        .textContent =
+        "₹0.00";
+
+      document.getElementById("finalPrice")
+        .textContent =
+        "₹0.00";
+
+    }
+
+  </script>
+
+</body>
+</html>
