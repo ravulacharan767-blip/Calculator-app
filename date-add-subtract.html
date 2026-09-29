@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Date Add/Subtract Calculator - SmartCalc</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 42px);
+    }
+
+    header p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .container {
+      width: min(94%, 750px);
+      margin: 30px auto;
+    }
+
+    .calculator {
+      background: white;
+      padding: clamp(20px, 4vw, 35px);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    .input-group {
+      margin-top: 22px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #dbe2ea;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #2563eb;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .reset:hover {
+      background: #d1d5db;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 10px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 25px;
+      background: #eff6ff;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .result h3 {
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    .result-date {
+      font-size: clamp(25px, 6vw, 38px);
+      font-weight: bold;
+      color: #111827;
+      margin: 15px 0;
+    }
+
+    .result p {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .info {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f8fafc;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .back-button {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Date Add/Subtract Calculator</h1>
+    <p>Add or subtract days from any date</p>
+  </header>
+
+  <div class="container">
+
+    <div class="calculator">
+
+      <h2>Calculate New Date</h2>
+
+      <div class="input-group">
+        <label for="startDate">Starting Date</label>
+        <input type="date" id="startDate">
+      </div>
+
+      <div class="input-group">
+        <label for="days">Number of Days</label>
+        <input
+          type="number"
+          id="days"
+          placeholder="Enter number of days"
+          min="1"
+          step="1"
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="operation">Choose Operation</label>
+
+        <select id="operation">
+          <option value="add">Add Days</option>
+          <option value="subtract">Subtract Days</option>
+        </select>
+      </div>
+
+      <div class="buttons">
+
+        <button class="calculate" onclick="calculateDate()">
+          Calculate
+        </button>
+
+        <button class="reset" onclick="resetCalculator()">
+          Reset
+        </button>
+
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="result" id="result">
+
+        <h3>Result Date</h3>
+
+        <div class="result-date" id="resultDate"></div>
+
+        <p id="details"></p>
+
+      </div>
+
+      <div class="info">
+        <strong>How it works:</strong><br>
+        Select a starting date, enter the number of days,
+        and choose whether you want to add or subtract those days.
+        SmartCalc will show the resulting date.
+        <br><br>
+        <strong>Example:</strong> Add 30 days to 1 January 2026
+        → 31 January 2026.
+      </div>
+
+      <a href="index.html" class="back-button">
+        ← Back to SmartCalc
+      </a>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function calculateDate() {
+
+      const dateValue =
+        document.getElementById("startDate").value;
+
+      const daysValue =
+        document.getElementById("days").value.trim();
+
+      const operation =
+        document.getElementById("operation").value;
+
+      const error =
+        document.getElementById("error");
+
+      const result =
+        document.getElementById("result");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      // Validate date
+      if (dateValue === "") {
+        showError("Please select a starting date.");
+        return;
+      }
+
+      // Validate days
+      if (daysValue === "") {
+        showError("Please enter the number of days.");
+        return;
+      }
+
+      const days = Number(daysValue);
+
+      if (!Number.isFinite(days) || !Number.isInteger(days)) {
+        showError("Please enter a whole number of days.");
+        return;
+      }
+
+      if (days <= 0) {
+        showError("Number of days must be greater than zero.");
+        return;
+      }
+
+      const date = new Date(dateValue + "T00:00:00");
+
+      if (isNaN(date.getTime())) {
+        showError("Please enter a valid date.");
+        return;
+      }
+
+      // Add or subtract days
+      if (operation === "add") {
+        date.setDate(date.getDate() + days);
+      } else {
+        date.setDate(date.getDate() - days);
+      }
+
+      const formattedDate =
+        formatDate(date);
+
+      document.getElementById("resultDate").textContent =
+        formattedDate;
+
+      const operationText =
+        operation === "add" ? "added to" : "subtracted from";
+
+      document.getElementById("details").textContent =
+        days + " day" +
+        (days === 1 ? "" : "s") +
+        " " +
+        operationText +
+        " " +
+        formatInputDate(dateValue);
+
+      result.style.display = "block";
+    }
+
+    function formatDate(date) {
+
+      const day =
+        String(date.getDate()).padStart(2, "0");
+
+      const month =
+        String(date.getMonth() + 1).padStart(2, "0");
+
+      const year =
+        date.getFullYear();
+
+      return day + "/" + month + "/" + year;
+    }
+
+    function formatInputDate(value) {
+
+      const parts = value.split("-");
+
+      return parts[2] + "/" + parts[1] + "/" + parts[0];
+    }
+
+    function showError(message) {
+
+      const error =
+        document.getElementById("error");
+
+      error.textContent = message;
+      error.style.display = "block";
+    }
+
+    function resetCalculator() {
+
+      document.getElementById("startDate").value = "";
+      document.getElementById("days").value = "";
+      document.getElementById("operation").value = "add";
+
+      document.getElementById("error").style.display = "none";
+      document.getElementById("result").style.display = "none";
+    }
+
+  </script>
+
+</body>
+</html>
