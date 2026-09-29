@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ratio Calculator - SmartCalc</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 42px);
+    }
+
+    header p {
+      margin: 0;
+      font-size: clamp(14px, 2vw, 18px);
+    }
+
+    .container {
+      width: min(92%, 850px);
+      margin: 30px auto;
+    }
+
+    .calculator {
+      background: white;
+      padding: clamp(20px, 4vw, 35px);
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      color: #2563eb;
+      font-size: clamp(22px, 4vw, 30px);
+    }
+
+    .ratio-inputs {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+      margin-top: 25px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #dbe2ea;
+      border-radius: 10px;
+      font-size: 17px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .colon {
+      font-size: 28px;
+      font-weight: bold;
+      padding-bottom: 7px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .reset:hover {
+      background: #d1d5db;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 10px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 22px;
+      background: #eff6ff;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .result h3 {
+      margin-top: 0;
+      color: #2563eb;
+    }
+
+    .big-result {
+      font-size: clamp(30px, 6vw, 45px);
+      font-weight: bold;
+      margin: 12px 0;
+      color: #111827;
+    }
+
+    .result p {
+      font-size: 17px;
+      margin: 8px 0;
+    }
+
+    .info {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f8fafc;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
+
+      .ratio-inputs {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .colon {
+        text-align: center;
+        padding: 0;
+        margin: -5px 0;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 601px) {
+      .calculator {
+        min-height: 450px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Ratio Calculator</h1>
+    <p>Calculate and simplify ratios easily</p>
+  </header>
+
+  <div class="container">
+
+    <div class="calculator">
+
+      <h2>Calculate Ratio</h2>
+
+      <div class="ratio-inputs">
+
+        <div class="input-group">
+          <label for="value1">First Value</label>
+          <input
+            type="number"
+            id="value1"
+            placeholder="Enter first value"
+            min="0"
+            step="any"
+          >
+        </div>
+
+        <div class="colon">:</div>
+
+        <div class="input-group">
+          <label for="value2">Second Value</label>
+          <input
+            type="number"
+            id="value2"
+            placeholder="Enter second value"
+            min="0"
+            step="any"
+          >
+        </div>
+
+      </div>
+
+      <div class="buttons">
+        <button class="calculate" onclick="calculateRatio()">
+          Calculate
+        </button>
+
+        <button class="reset" onclick="resetCalculator()">
+          Reset
+        </button>
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="result" id="result">
+        <h3>Simplified Ratio</h3>
+
+        <div class="big-result" id="simplifiedRatio">
+          0 : 0
+        </div>
+
+        <p id="originalRatio"></p>
+        <p id="decimalRatio"></p>
+      </div>
+
+      <div class="info">
+        <strong>How it works:</strong><br>
+        Enter two positive numbers and SmartCalc will simplify the ratio
+        using the greatest common divisor (GCD).
+        <br><br>
+        <strong>Example:</strong> 12 : 18 → 2 : 3
+      </div>
+
+      <a href="index.html" class="back">
+        ← Back to SmartCalc
+      </a>
+
+    </div>
+
+  </div>
+
+  <script>
+    function gcd(a, b) {
+      while (b !== 0) {
+        let remainder = a % b;
+        a = b;
+        b = remainder;
+      }
+
+      return a;
+    }
+
+    function calculateRatio() {
+      const value1 = document.getElementById("value1").value.trim();
+      const value2 = document.getElementById("value2").value.trim();
+
+      const error = document.getElementById("error");
+      const result = document.getElementById("result");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      if (value1 === "" || value2 === "") {
+        showError("Please enter both values.");
+        return;
+      }
+
+      const num1 = Number(value1);
+      const num2 = Number(value2);
+
+      if (!Number.isFinite(num1) || !Number.isFinite(num2)) {
+        showError("Please enter valid numbers.");
+        return;
+      }
+
+      if (num1 <= 0 || num2 <= 0) {
+        showError("Both values must be greater than zero.");
+        return;
+      }
+
+      /*
+        For decimal values, multiply both numbers
+        until they become whole numbers.
+      */
+      let a = num1;
+      let b = num2;
+
+      let decimalPlacesA = getDecimalPlaces(a);
+      let decimalPlacesB = getDecimalPlaces(b);
+
+      let decimalPlaces = Math.max(
+        decimalPlacesA,
+        decimalPlacesB
+      );
+
+      if (decimalPlaces > 10) {
+        showError("Please enter numbers with fewer decimal places.");
+        return;
+      }
+
+      const multiplier = Math.pow(10, decimalPlaces);
+
+      a = Math.round(a * multiplier);
+      b = Math.round(b * multiplier);
+
+      const divisor = gcd(a, b);
+
+      const simplifiedA = a / divisor;
+      const simplifiedB = b / divisor;
+
+      document.getElementById("simplifiedRatio").textContent =
+        simplifiedA + " : " + simplifiedB;
+
+      document.getElementById("originalRatio").textContent =
+        "Original ratio: " + num1 + " : " + num2;
+
+      document.getElementById("decimalRatio").textContent =
+        "Ratio value: " + (num1 / num2).toFixed(4);
+
+      result.style.display = "block";
+    }
+
+    function getDecimalPlaces(number) {
+      const stringNumber = number.toString();
+
+      if (!stringNumber.includes(".")) {
+        return 0;
+      }
+
+      return stringNumber.split(".")[1].length;
+    }
+
+    function showError(message) {
+      const error = document.getElementById("error");
+
+      error.textContent = message;
+      error.style.display = "block";
+    }
+
+    function resetCalculator() {
+      document.getElementById("value1").value = "";
+      document.getElementById("value2").value = "";
+
+      document.getElementById("error").style.display = "none";
+      document.getElementById("result").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
