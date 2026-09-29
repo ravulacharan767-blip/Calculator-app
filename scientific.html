@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Scientific Calculator - SmartCalc</title>
+<meta name="description" content="Free online scientific calculator with advanced mathematical functions.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 25px 16px 35px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.tagline {
+    margin-top: 8px;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+.calculator-box {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.display {
+    width: 100%;
+    min-height: 85px;
+    padding: 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #f8fafc;
+    font-size: 28px;
+    text-align: right;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 15px;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 16px 8px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #e5e7eb;
+    color: #172033;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.operator {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.function {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+.clear {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.delete {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.equals {
+    background: #2563eb;
+    color: white;
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+.error {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 9px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.info {
+    margin-top: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
+}
+
+.info h2 {
+    margin-bottom: 12px;
+}
+
+.info p {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    margin-top: 25px;
+}
+
+footer p {
+    color: #cbd5e1;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+@media (max-width: 450px) {
+
+    .calculator-box {
+        padding: 15px;
+    }
+
+    .display {
+        font-size: 24px;
+    }
+
+    button {
+        padding: 14px 5px;
+        font-size: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🧮 SmartCalc</div>
+    <div class="tagline">
+        Free Online Calculators for Everyday Life
+    </div>
+</header>
+
+<main class="container">
+
+<div class="calculator-box">
+
+    <h1>🔬 Scientific Calculator</h1>
+
+    <div
+        class="display"
+        id="display"
+    >0</div>
+
+    <div class="keypad">
+
+        <!-- Row 1 -->
+        <button
+            class="clear"
+            onclick="clearDisplay()"
+        >
+            AC
+        </button>
+
+        <button
+            class="delete"
+            onclick="deleteLast()"
+        >
+            DEL
+        </button>
+
+        <button
+            class="function"
+            onclick="addValue('(')"
+        >
+            (
+        </button>
+
+        <button
+            class="function"
+            onclick="addValue(')')"
+        >
+            )
+        </button>
+
+
+        <!-- Row 2 -->
+        <button
+            class="function"
+            onclick="calculateSquareRoot()"
+        >
+            √
+        </button>
+
+        <button
+            class="function"
+            onclick="addValue('^')"
+        >
+            xʸ
+        </button>
+
+        <button
+            class="function"
+            onclick="addValue('π')"
+        >
+            π
+        </button>
+
+        <button
+            class="function"
+            onclick="addValue('e')"
+        >
+            e
+        </button>
+
+
+        <!-- Row 3 -->
+        <button
+            class="function"
+            onclick="calculateFunction('sin')"
+        >
+            sin
+        </button>
+
+        <button
+            class="function"
+            onclick="calculateFunction('cos')"
+        >
+            cos
+        </button>
+
+        <button
+            class="function"
+            onclick="calculateFunction('tan')"
+        >
+            tan
+        </button>
+
+        <button
+            class="operator"
+            onclick="addValue('/')"
+        >
+            ÷
+        </button>
+
+
+        <!-- Row 4 -->
+        <button
+            class="function"
+            onclick="calculateFunction('log')"
+        >
+            log
+        </button>
+
+        <button
+            class="function"
+            onclick="calculateFunction('ln')"
+        >
+            ln
+        </button>
+
+        <button
+            class="function"
+            onclick="calculateSquare()"
+        >
+            x²
+        </button>
+
+        <button
+            class="operator"
+            onclick="addValue('*')"
+        >
+            ×
+        </button>
+
+
+        <!-- Row 5 -->
+        <button onclick="addValue('7')">7</button>
+
+        <button onclick="addValue('8')">8</button>
+
+        <button onclick="addValue('9')">9</button>
+
+        <button
+            class="operator"
+            onclick="addValue('-')"
+        >
+            −
+        </button>
+
+
+        <!-- Row 6 -->
+        <button onclick="addValue('4')">4</button>
+
+        <button onclick="addValue('5')">5</button>
+
+        <button onclick="addValue('6')">6</button>
+
+        <button
+            class="operator"
+            onclick="addValue('+')"
+        >
+            +
+        </button>
+
+
+        <!-- Row 7 -->
+        <button onclick="addValue('1')">1</button>
+
+        <button onclick="addValue('2')">2</button>
+
+        <button onclick="addValue('3')">3</button>
+
+        <button
+            class="equals"
+            onclick="calculateResult()"
+        >
+            =
+        </button>
+
+
+        <!-- Row 8 -->
+        <button
+            class="zero"
+            onclick="addValue('0')"
+        >
+            0
+        </button>
+
+        <button onclick="addValue('.')">
+            .
+        </button>
+
+    </div>
+
+    <div
+        class="error"
+        id="error"
+    ></div>
+
+</div>
+
+
+<div class="info">
+
+    <h2>❓ What is a Scientific Calculator?</h2>
+
+    <p>
+        A scientific calculator performs basic arithmetic as well as
+        advanced mathematical operations.
+    </p>
+
+    <p>
+        This calculator supports trigonometric functions, logarithms,
+        powers, square roots, constants such as π and e, parentheses,
+        and standard arithmetic.
+    </p>
+
+    <p>
+        Trigonometric functions use degrees.
+    </p>
+
+</div>
+
+</main>
+
+
+<footer>
+
+    <h2>🧮 SmartCalc</h2>
+
+    <p>
+        Free online calculators for everyone.
+    </p>
+
+    <p>
+        © 2026 SmartCalc
+    </p>
+
+</footer>
+
+
+<script>
+
+let expression = "";
+
+const display =
+    document.getElementById("display");
+
+const errorBox =
+    document.getElementById("error");
+
+
+function updateDisplay() {
+
+    if (expression === "") {
+
+        display.textContent = "0";
+
+    } else {
+
+        display.textContent =
+            expression
+            .replace(/\*/g, "×")
+            .replace(/\//g, "÷");
+    }
+}
+
+
+function addValue(value) {
+
+    hideError();
+
+    expression += value;
+
+    updateDisplay();
+}
+
+
+function clearDisplay() {
+
+    expression = "";
+
+    hideError();
+
+    updateDisplay();
+}
+
+
+function deleteLast() {
+
+    hideError();
+
+    expression =
+        expression.slice(0, -1);
+
+    updateDisplay();
+}
+
+
+function calculateSquareRoot() {
+
+    if (expression === "") {
+
+        showError(
+            "Enter a number first."
+        );
+
+        return;
+    }
+
+    try {
+
+        const value =
+            evaluateExpression(expression);
+
+        if (value < 0) {
+
+            showError(
+                "Square root of a negative number is not supported."
+            );
+
+            return;
+        }
+
+        expression =
+            String(Math.sqrt(value));
+
+        updateDisplay();
+
+    } catch {
+
+        showError(
+            "Invalid mathematical expression."
+        );
+    }
+}
+
+
+function calculateSquare() {
+
+    if (expression === "") {
+
+        showError(
+            "Enter a number first."
+        );
+
+        return;
+    }
+
+    try {
+
+        const value =
+            evaluateExpression(expression);
+
+        expression =
+            String(value * value);
+
+        updateDisplay();
+
+    } catch {
+
+        showError(
+            "Invalid mathematical expression."
+        );
+    }
+}
+
+
+function calculateFunction(func) {
+
+    if (expression === "") {
+
+        showError(
+            "Enter a number first."
+        );
+
+        return;
+    }
+
+    try {
+
+        const value =
+            evaluateExpression(expression);
+
+        let result;
+
+        if (func === "sin") {
+
+            result =
+                Math.sin(value * Math.PI / 180);
+
+        } else if (func === "cos") {
+
+            result =
+                Math.cos(value * Math.PI / 180);
+
+        } else if (func === "tan") {
+
+            result =
+                Math.tan(value * Math.PI / 180);
+
+        } else if (func === "log") {
+
+            if (value <= 0) {
+
+                showError(
+                    "Logarithm requires a number greater than 0."
+                );
+
+                return;
+            }
+
+            result =
+                Math.log10(value);
+
+        } else if (func === "ln") {
+
+            if (value <= 0) {
+
+                showError(
+                    "Natural logarithm requires a number greater than 0."
+                );
+
+                return;
+            }
+
+            result =
+                Math.log(value);
+        }
+
+        expression =
+            formatResult(result);
+
+        updateDisplay();
+
+    } catch {
+
+        showError(
+            "Invalid mathematical expression."
+        );
+    }
+}
+
+
+function calculateResult() {
+
+    if (expression === "") {
+
+        showError(
+            "Enter a calculation first."
+        );
+
+        return;
+    }
+
+    try {
+
+        const result =
+            evaluateExpression(expression);
+
+        if (!Number.isFinite(result)) {
+
+            showError(
+                "The result is not a valid number."
+            );
+
+            return;
+        }
+
+        expression =
+            formatResult(result);
+
+        updateDisplay();
+
+    } catch {
+
+        showError(
+            "Invalid mathematical expression."
+        );
+    }
+}
+
+
+function evaluateExpression(input) {
+
+    let safeExpression =
+        input
+        .replace(/π/g, "Math.PI")
+        .replace(/\be\b/g, "Math.E")
+        .replace(/\^/g, "**");
+
+    /*
+       Only mathematical characters are allowed.
+       This prevents arbitrary JavaScript from being executed.
+    */
+
+    if (
+        !/^[0-9+\-*/().\sA-Za-z_]+$/.test(
+            safeExpression
+        )
+    ) {
+
+        throw new Error(
+            "Invalid characters"
+        );
+    }
+
+    if (
+        /(?:constructor|window|document|alert|eval|function|return)/i
+        .test(safeExpression)
+    ) {
+
+        throw new Error(
+            "Invalid expression"
+        );
+    }
+
+    const result =
+        Function(
+            '"use strict"; return (' +
+            safeExpression +
+            ')'
+        )();
+
+    if (
+        typeof result !== "number" ||
+        !Number.isFinite(result)
+    ) {
+
+        throw new Error(
+            "Invalid result"
+        );
+    }
+
+    return result;
+}
+
+
+function formatResult(value) {
+
+    if (
+        Math.abs(value) < 1e-12
+    ) {
+
+        value = 0;
+    }
+
+    return Number(
+        value.toPrecision(12)
+    ).toString();
+}
+
+
+function showError(message) {
+
+    errorBox.textContent =
+        message;
+
+    errorBox.style.display =
+        "block";
+}
+
+
+function hideError() {
+
+    errorBox.style.display =
+        "none";
+}
+
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
