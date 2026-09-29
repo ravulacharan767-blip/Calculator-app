@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BMI Calculator - Calculator App</title>
+
+  <meta name="description"
+        content="Calculate BMI using height and weight. Learn the basic meaning of BMI and how it is calculated.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      opacity: 0.95;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 650px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      color: #2563eb;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .error {
+      color: #dc2626;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #eff6ff;
+      text-align: center;
+    }
+
+    .result h3 {
+      color: #2563eb;
+      margin-bottom: 10px;
+    }
+
+    .bmi-number {
+      font-size: 38px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .info p {
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .formula {
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    ul {
+      padding-left: 22px;
+      line-height: 1.8;
+    }
+
+    .note {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      padding: 14px;
+      margin-top: 15px;
+      line-height: 1.6;
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+      header h1 {
+        font-size: 25px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>BMI Calculator</h1>
+    <p>Calculate your Body Mass Index</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Calculator -->
+    <section class="card">
+      <h2>Calculate Your BMI</h2>
+
+      <label for="height">Height (cm)</label>
+      <input
+        type="number"
+        id="height"
+        placeholder="Enter your height"
+        min="50"
+        max="300"
+        step="0.1"
+      >
+
+      <label for="weight">Weight (kg)</label>
+      <input
+        type="number"
+        id="weight"
+        placeholder="Enter your weight"
+        min="2"
+        max="500"
+        step="0.1"
+      >
+
+      <div id="error" class="error"></div>
+
+      <div class="buttons">
+        <button class="calculate" onclick="calculateBMI()">
+          Calculate BMI
+        </button>
+
+        <button class="reset" onclick="resetBMI()">
+          Reset
+        </button>
+      </div>
+
+      <div id="result" class="result">
+        <h3>Your BMI</h3>
+        <div id="bmiValue" class="bmi-number">0</div>
+        <p id="bmiMessage"></p>
+      </div>
+    </section>
+
+    <!-- Basic Information -->
+    <section class="card info">
+      <h2>What is BMI?</h2>
+
+      <p>
+        BMI stands for <strong>Body Mass Index</strong>. It is a number
+        calculated from a person's height and weight.
+      </p>
+
+      <p>
+        BMI can be used as a screening measurement, but it does not directly
+        measure body fat or provide a complete picture of someone's health.
+      </p>
+
+      <div class="formula">
+        BMI = Weight (kg) ÷ Height² (m²)
+      </div>
+
+      <h2>How is BMI calculated?</h2>
+
+      <p>
+        First, height in centimeters is converted into meters. Then the
+        weight in kilograms is divided by height in meters squared.
+      </p>
+
+      <h2>Adult BMI Categories</h2>
+
+      <ul>
+        <li>Below 18.5 — Underweight</li>
+        <li>18.5 to 24.9 — Healthy weight</li>
+        <li>25.0 to 29.9 — Overweight</li>
+        <li>30.0 or higher — Obesity</li>
+      </ul>
+
+      <div class="note">
+        <strong>Important:</strong> These categories are for adults.
+        For children and teenagers, BMI is interpreted using age- and
+        sex-specific growth charts rather than adult BMI categories.
+      </div>
+    </section>
+
+    <!-- Important Information -->
+    <section class="card info">
+      <h2>Things to Know About BMI</h2>
+
+      <ul>
+        <li>BMI is a screening measurement, not a diagnosis.</li>
+        <li>BMI does not directly measure body fat.</li>
+        <li>Age and sex can affect how BMI should be interpreted.</li>
+        <li>For children and teenagers, growth charts are used.</li>
+        <li>Other health and lifestyle factors are also important.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Calculator App
+  </footer>
+
+
+  <script>
+    function calculateBMI() {
+
+      const heightInput = document.getElementById("height");
+      const weightInput = document.getElementById("weight");
+      const error = document.getElementById("error");
+      const result = document.getElementById("result");
+      const bmiValue = document.getElementById("bmiValue");
+      const bmiMessage = document.getElementById("bmiMessage");
+
+      const height = parseFloat(heightInput.value);
+      const weight = parseFloat(weightInput.value);
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      // Validation
+      if (heightInput.value === "" || weightInput.value === "") {
+        error.textContent = "Please enter both height and weight.";
+        error.style.display = "block";
+        return;
+      }
+
+      if (!isFinite(height) || !isFinite(weight)) {
+        error.textContent = "Please enter valid numbers.";
+        error.style.display = "block";
+        return;
+      }
+
+      if (height < 50 || height > 300) {
+        error.textContent = "Please enter a height between 50 cm and 300 cm.";
+        error.style.display = "block";
+        return;
+      }
+
+      if (weight < 2 || weight > 500) {
+        error.textContent = "Please enter a weight between 2 kg and 500 kg.";
+        error.style.display = "block";
+        return;
+      }
+
+      // Convert cm to meters
+      const heightInMeters = height / 100;
+
+      // BMI formula
+      const bmi = weight / (heightInMeters * heightInMeters);
+
+      bmiValue.textContent = bmi.toFixed(1);
+
+      // Adult categories
+      if (bmi < 18.5) {
+        bmiMessage.textContent =
+          "For adults, this falls in the underweight range.";
+      } else if (bmi < 25) {
+        bmiMessage.textContent =
+          "For adults, this falls in the healthy-weight range.";
+      } else if (bmi < 30) {
+        bmiMessage.textContent =
+          "For adults, this falls in the overweight range.";
+      } else {
+        bmiMessage.textContent =
+          "For adults, this falls in the obesity range.";
+      }
+
+      result.style.display = "block";
+    }
+
+
+    function resetBMI() {
+
+      document.getElementById("height").value = "";
+      document.getElementById("weight").value = "";
+
+      document.getElementById("error").style.display = "none";
+      document.getElementById("result").style.display = "none";
+
+      document.getElementById("bmiValue").textContent = "0";
+      document.getElementById("bmiMessage").textContent = "";
+    }
+  </script>
+
+</body>
+</html>
