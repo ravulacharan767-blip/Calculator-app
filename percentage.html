@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Percentage Calculator - Calculator App</title>
+
+  <meta name="description"
+        content="Free Percentage Calculator with percentage, percentage change, increase and decrease calculations.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: white;
+      text-align: center;
+      padding: 28px 15px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 700px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      color: #2563eb;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .error {
+      display: none;
+      color: #dc2626;
+      background: #fef2f2;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: #eff6ff;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .result h3 {
+      color: #2563eb;
+      margin-bottom: 10px;
+    }
+
+    .result-number {
+      font-size: 34px;
+      font-weight: bold;
+      color: #2563eb;
+      margin: 10px 0;
+    }
+
+    .info p {
+      line-height: 1.7;
+      margin-bottom: 13px;
+    }
+
+    .formula {
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.7;
+    }
+
+    .note {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      padding: 14px;
+      margin-top: 15px;
+      line-height: 1.6;
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+      header h1 {
+        font-size: 25px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Percentage Calculator</h1>
+    <p>Calculate percentages quickly and easily</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Calculator 1 -->
+    <section class="card">
+
+      <h2>What is X% of Y?</h2>
+
+      <label for="percent1">Percentage (%)</label>
+
+      <input
+        type="number"
+        id="percent1"
+        placeholder="Enter percentage"
+        step="any"
+      >
+
+      <label for="number1">Number</label>
+
+      <input
+        type="number"
+        id="number1"
+        placeholder="Enter number"
+        step="any"
+      >
+
+      <div id="error1" class="error"></div>
+
+      <div class="buttons">
+
+        <button
+          class="calculate"
+          onclick="calculatePercentage()">
+          Calculate
+        </button>
+
+        <button
+          class="reset"
+          onclick="resetPercentage()">
+          Reset
+        </button>
+
+      </div>
+
+      <div id="result1" class="result">
+
+        <h3>Result</h3>
+
+        <div id="answer1" class="result-number">
+          0
+        </div>
+
+        <p id="message1"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- Calculator 2 -->
+    <section class="card">
+
+      <h2>X is what percentage of Y?</h2>
+
+      <label for="number2">X Value</label>
+
+      <input
+        type="number"
+        id="number2"
+        placeholder="Enter X"
+        step="any"
+      >
+
+      <label for="number3">Y Value</label>
+
+      <input
+        type="number"
+        id="number3"
+        placeholder="Enter Y"
+        step="any"
+      >
+
+      <div id="error2" class="error"></div>
+
+      <button
+        class="calculate"
+        onclick="calculateWhatPercentage()"
+        style="margin-top:20px;">
+        Calculate
+      </button>
+
+      <div id="result2" class="result">
+
+        <h3>Result</h3>
+
+        <div id="answer2" class="result-number">
+          0%
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Calculator 3 -->
+    <section class="card">
+
+      <h2>Percentage Increase or Decrease</h2>
+
+      <label for="oldValue">Original Value</label>
+
+      <input
+        type="number"
+        id="oldValue"
+        placeholder="Enter original value"
+        step="any"
+      >
+
+      <label for="newValue">New Value</label>
+
+      <input
+        type="number"
+        id="newValue"
+        placeholder="Enter new value"
+        step="any"
+      >
+
+      <div id="error3" class="error"></div>
+
+      <button
+        class="calculate"
+        onclick="calculateChange()"
+        style="margin-top:20px;">
+        Calculate
+      </button>
+
+      <div id="result3" class="result">
+
+        <h3>Result</h3>
+
+        <div id="answer3" class="result-number">
+          0%
+        </div>
+
+        <p id="message3"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- Information -->
+    <section class="card info">
+
+      <h2>What is a Percentage?</h2>
+
+      <p>
+        A percentage is a way of expressing a number as a
+        fraction of 100. The symbol used for percentage is
+        <strong>%</strong>.
+      </p>
+
+      <div class="formula">
+        Percentage = (Part ÷ Whole) × 100
+      </div>
+
+      <p>
+        Percentages are commonly used for discounts, marks,
+        interest rates, statistics, increases and decreases.
+      </p>
+
+    </section>
+
+
+    <!-- Examples -->
+    <section class="card info">
+
+      <h2>Percentage Examples</h2>
+
+      <div class="formula">
+        20% of 200 = 40
+        <br><br>
+        25 is what percentage of 100? = 25%
+        <br><br>
+        Increase from 100 to 120 = 20%
+      </div>
+
+    </section>
+
+
+    <!-- Information -->
+    <section class="card info">
+
+      <h2>Where Are Percentages Used?</h2>
+
+      <p>
+        Percentages are used in many everyday situations,
+        including:
+      </p>
+
+      <div class="formula">
+        Discounts<br>
+        Exam Marks<br>
+        Interest Rates<br>
+        Business Statistics<br>
+        Population Statistics<br>
+        Price Changes
+      </div>
+
+      <div class="note">
+        <strong>Tip:</strong>
+        Always check whether you are calculating a percentage
+        of a number, finding what percentage one number is of
+        another, or calculating a percentage change.
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    © 2026 Calculator App
+  </footer>
+
+
+  <script>
+
+    // --------------------------------
+    // X% of Y
+    // --------------------------------
+
+    function calculatePercentage() {
+
+      const percentage =
+        parseFloat(document.getElementById("percent1").value);
+
+      const number =
+        parseFloat(document.getElementById("number1").value);
+
+      const error =
+        document.getElementById("error1");
+
+      const result =
+        document.getElementById("result1");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      if (
+        document.getElementById("percent1").value === "" ||
+        document.getElementById("number1").value === ""
+      ) {
+
+        error.textContent =
+          "Please enter both percentage and number.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      if (!isFinite(percentage) || !isFinite(number)) {
+
+        error.textContent =
+          "Please enter valid numbers.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      if (percentage < 0) {
+
+        error.textContent =
+          "Percentage cannot be negative.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      const answer =
+        (percentage / 100) * number;
+
+      document.getElementById("answer1").textContent =
+        answer.toLocaleString(undefined, {
+          maximumFractionDigits: 10
+        });
+
+      document.getElementById("message1").textContent =
+        percentage + "% of " + number + " = " + answer;
+
+      result.style.display = "block";
+    }
+
+
+    // --------------------------------
+    // X is what percentage of Y
+    // --------------------------------
+
+    function calculateWhatPercentage() {
+
+      const x =
+        parseFloat(document.getElementById("number2").value);
+
+      const y =
+        parseFloat(document.getElementById("number3").value);
+
+      const error =
+        document.getElementById("error2");
+
+      const result =
+        document.getElementById("result2");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      if (
+        document.getElementById("number2").value === "" ||
+        document.getElementById("number3").value === ""
+      ) {
+
+        error.textContent =
+          "Please enter both values.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      if (!isFinite(x) || !isFinite(y)) {
+
+        error.textContent =
+          "Please enter valid numbers.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      if (y === 0) {
+
+        error.textContent =
+          "The second value cannot be zero.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      const answer =
+        (x / y) * 100;
+
+      document.getElementById("answer2").textContent =
+        answer.toFixed(2) + "%";
+
+      result.style.display = "block";
+    }
+
+
+    // --------------------------------
+    // Percentage Increase / Decrease
+    // --------------------------------
+
+    function calculateChange() {
+
+      const oldValue =
+        parseFloat(document.getElementById("oldValue").value);
+
+      const newValue =
+        parseFloat(document.getElementById("newValue").value);
+
+      const error =
+        document.getElementById("error3");
+
+      const result =
+        document.getElementById("result3");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      if (
+        document.getElementById("oldValue").value === "" ||
+        document.getElementById("newValue").value === ""
+      ) {
+
+        error.textContent =
+          "Please enter both original and new values.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      if (!isFinite(oldValue) || !isFinite(newValue)) {
+
+        error.textContent =
+          "Please enter valid numbers.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      if (oldValue === 0) {
+
+        error.textContent =
+          "The original value cannot be zero.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+      const change =
+        ((newValue - oldValue) / Math.abs(oldValue)) * 100;
+
+      document.getElementById("answer3").textContent =
+        Math.abs(change).toFixed(2) + "%";
+
+      if (change > 0) {
+
+        document.getElementById("message3").textContent =
+          "This is a " + change.toFixed(2) + "% increase.";
+
+      } else if (change < 0) {
+
+        document.getElementById("message3").textContent =
+          "This is a " + Math.abs(change).toFixed(2) + "% decrease.";
+
+      } else {
+
+        document.getElementById("message3").textContent =
+          "There is no percentage change.";
+
+      }
+
+      result.style.display = "block";
+    }
+
+
+    // --------------------------------
+    // Reset
+    // --------------------------------
+
+    function resetPercentage() {
+
+      document.getElementById("percent1").value = "";
+      document.getElementById("number1").value = "";
+
+      document.getElementById("number2").value = "";
+      document.getElementById("number3").value = "";
+
+      document.getElementById("oldValue").value = "";
+      document.getElementById("newValue").value = "";
+
+      document.getElementById("error1").style.display = "none";
+      document.getElementById("error2").style.display = "none";
+      document.getElementById("error3").style.display = "none";
+
+      document.getElementById("result1").style.display = "none";
+      document.getElementById("result2").style.display = "none";
+      document.getElementById("result3").style.display = "none";
+
+      document.getElementById("answer1").textContent = "0";
+      document.getElementById("answer2").textContent = "0%";
+      document.getElementById("answer3").textContent = "0%";
+
+      document.getElementById("message1").textContent = "";
+      document.getElementById("message3").textContent = "";
+    }
+
+  </script>
+
+</body>
+</html>
