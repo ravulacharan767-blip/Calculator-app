@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Date Difference Calculator - SmartCalc</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 42px);
+    }
+
+    header p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .container {
+      width: min(94%, 750px);
+      margin: 30px auto;
+    }
+
+    .calculator {
+      background: white;
+      padding: clamp(20px, 4vw, 35px);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    .date-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #dbe2ea;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input[type="date"]:focus {
+      border-color: #2563eb;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .reset:hover {
+      background: #d1d5db;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 10px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 22px;
+      background: #eff6ff;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .result h3 {
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    .main-result {
+      font-size: clamp(28px, 6vw, 40px);
+      font-weight: bold;
+      margin: 15px 0;
+      color: #111827;
+    }
+
+    .result p {
+      font-size: 17px;
+      margin: 8px 0;
+    }
+
+    .info {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f8fafc;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .back-button {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
+
+      .date-inputs {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Date Difference Calculator</h1>
+    <p>Calculate the exact difference between two dates</p>
+  </header>
+
+  <div class="container">
+
+    <div class="calculator">
+
+      <h2>Calculate Date Difference</h2>
+
+      <div class="date-inputs">
+
+        <div class="input-group">
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate">
+        </div>
+
+        <div class="input-group">
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate">
+        </div>
+
+      </div>
+
+      <div class="buttons">
+
+        <button class="calculate" onclick="calculateDifference()">
+          Calculate
+        </button>
+
+        <button class="reset" onclick="resetCalculator()">
+          Reset
+        </button>
+
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="result" id="result">
+
+        <h3>Date Difference</h3>
+
+        <div class="main-result" id="daysResult">
+          0 Days
+        </div>
+
+        <p id="weeksResult"></p>
+        <p id="monthsResult"></p>
+        <p id="yearsResult"></p>
+
+      </div>
+
+      <div class="info">
+        <strong>How it works:</strong><br>
+        Select a start date and an end date.
+        SmartCalc calculates the difference between the two dates
+        in days, weeks, months and years.
+      </div>
+
+      <a href="index.html" class="back-button">
+        ← Back to SmartCalc
+      </a>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function calculateDifference() {
+
+      const startInput =
+        document.getElementById("startDate").value;
+
+      const endInput =
+        document.getElementById("endDate").value;
+
+      const error =
+        document.getElementById("error");
+
+      const result =
+        document.getElementById("result");
+
+      error.style.display = "none";
+      result.style.display = "none";
+
+      // Validation
+      if (startInput === "" || endInput === "") {
+
+        showError("Please select both dates.");
+        return;
+      }
+
+      const startDate =
+        new Date(startInput + "T00:00:00");
+
+      const endDate =
+        new Date(endInput + "T00:00:00");
+
+      if (isNaN(startDate.getTime()) ||
+          isNaN(endDate.getTime())) {
+
+        showError("Please enter valid dates.");
+        return;
+      }
+
+      if (endDate < startDate) {
+
+        showError(
+          "End date cannot be earlier than the start date."
+        );
+
+        return;
+      }
+
+      // Difference in milliseconds
+      const difference =
+        endDate.getTime() - startDate.getTime();
+
+      // Difference in days
+      const days =
+        Math.round(difference / (1000 * 60 * 60 * 24));
+
+      // Weeks
+      const weeks =
+        (days / 7).toFixed(2);
+
+      // Approximate months
+      const months =
+        (days / 30.4375).toFixed(2);
+
+      // Approximate years
+      const years =
+        (days / 365.25).toFixed(2);
+
+      document.getElementById("daysResult").textContent =
+        days + (days === 1 ? " Day" : " Days");
+
+      document.getElementById("weeksResult").textContent =
+        "Weeks: " + weeks;
+
+      document.getElementById("monthsResult").textContent =
+        "Months: " + months;
+
+      document.getElementById("yearsResult").textContent =
+        "Years: " + years;
+
+      result.style.display = "block";
+    }
+
+    function showError(message) {
+
+      const error =
+        document.getElementById("error");
+
+      error.textContent = message;
+      error.style.display = "block";
+    }
+
+    function resetCalculator() {
+
+      document.getElementById("startDate").value = "";
+      document.getElementById("endDate").value = "";
+
+      document.getElementById("error").style.display = "none";
+      document.getElementById("result").style.display = "none";
+    }
+
+  </script>
+
+</body>
+</html>
