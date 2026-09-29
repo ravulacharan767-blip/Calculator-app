@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compound Interest Calculator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #182235;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 25px;
+    padding: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    color: #2860d0;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 18px;
+    border: 2px solid #d5dbe3;
+    border-radius: 15px;
+    font-size: 18px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #2860d0;
+}
+
+button {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.calculate {
+    background: #2860d0;
+    color: white;
+}
+
+.reset {
+    background: #e5e7eb;
+    color: #222;
+}
+
+.error {
+    color: #d62828;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.result {
+    margin-top: 35px;
+    padding: 25px;
+    background: #eef7ff;
+    border-radius: 25px;
+}
+
+.result h2 {
+    text-align: center;
+    color: #2860d0;
+    margin-bottom: 25px;
+}
+
+.result-box {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.result-title {
+    color: #6b7280;
+    font-size: 20px;
+}
+
+.result-value {
+    color: #2860d0;
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.info {
+    margin-top: 30px;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 20px;
+}
+
+.info h2 {
+    color: #2860d0;
+}
+
+.info p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 15px auto;
+        padding: 10px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    label {
+        font-size: 18px;
+    }
+
+    .result-value {
+        font-size: 28px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>📈 Compound Interest Calculator</h1>
+
+<label for="principal">Principal Amount (₹)</label>
+<input type="number" id="principal" placeholder="Enter principal amount" min="0">
+
+<label for="rate">Interest Rate (%)</label>
+<input type="number" id="rate" placeholder="Enter annual interest rate" min="0" step="0.01">
+
+<label for="time">Time (Years)</label>
+<input type="number" id="time" placeholder="Enter time in years" min="0" step="0.01">
+
+<label for="frequency">Compounding Frequency</label>
+<select id="frequency">
+    <option value="">Select frequency</option>
+    <option value="1">Annually</option>
+    <option value="2">Half-Yearly</option>
+    <option value="4">Quarterly</option>
+    <option value="12">Monthly</option>
+    <option value="365">Daily</option>
+</select>
+
+<button class="calculate" onclick="calculateCompoundInterest()">
+    Calculate
+</button>
+
+<button class="reset" onclick="resetCalculator()">
+    Reset
+</button>
+
+<div id="error" class="error"></div>
+
+<div id="result" class="result" style="display:none;">
+
+<h2>Calculation Result</h2>
+
+<div class="result-box">
+    <div class="result-title">Principal Amount</div>
+    <div class="result-value" id="principalResult">₹0.00</div>
+</div>
+
+<div class="result-box">
+    <div class="result-title">Compound Interest</div>
+    <div class="result-value" id="interestResult">₹0.00</div>
+</div>
+
+<div class="result-box">
+    <div class="result-title">Final Amount</div>
+    <div class="result-value" id="amountResult">₹0.00</div>
+</div>
+
+</div>
+
+<div class="info">
+
+<h2>📚 What is Compound Interest?</h2>
+
+<p>
+Compound interest is interest calculated on the original principal
+and also on the interest accumulated from previous periods.
+</p>
+
+<h2>📐 Formula</h2>
+
+<p>
+A = P × (1 + r/n)^(nt)
+</p>
+
+<p>
+Where:
+<br>
+<strong>P</strong> = Principal amount
+<br>
+<strong>r</strong> = Annual interest rate
+<br>
+<strong>n</strong> = Number of compounding periods per year
+<br>
+<strong>t</strong> = Time in years
+<br>
+<strong>A</strong> = Final amount
+</p>
+
+<h2>💡 Example</h2>
+
+<p>
+If you invest ₹10,000 at 10% annual interest for 2 years,
+compounded annually, the calculator will calculate the final
+amount and compound interest.
+</p>
+
+</div>
+
+</div>
+
+<footer>
+    🧮 SmartCalc
+</footer>
+
+</div>
+
+<script>
+
+function calculateCompoundInterest() {
+
+    const principal = parseFloat(document.getElementById("principal").value);
+    const rate = parseFloat(document.getElementById("rate").value);
+    const time = parseFloat(document.getElementById("time").value);
+    const frequency = parseInt(document.getElementById("frequency").value);
+
+    const error = document.getElementById("error");
+    const result = document.getElementById("result");
+
+    error.textContent = "";
+    result.style.display = "none";
+
+    if (
+        isNaN(principal) ||
+        isNaN(rate) ||
+        isNaN(time) ||
+        isNaN(frequency)
+    ) {
+        error.textContent = "Please fill in all fields.";
+        return;
+    }
+
+    if (principal <= 0) {
+        error.textContent = "Principal amount must be greater than 0.";
+        return;
+    }
+
+    if (rate < 0) {
+        error.textContent = "Interest rate cannot be negative.";
+        return;
+    }
+
+    if (time <= 0) {
+        error.textContent = "Time must be greater than 0.";
+        return;
+    }
+
+    const r = rate / 100;
+
+    const amount =
+        principal * Math.pow(
+            (1 + r / frequency),
+            (frequency * time)
+        );
+
+    const compoundInterest = amount - principal;
+
+    document.getElementById("principalResult").textContent =
+        "₹" + principal.toFixed(2);
+
+    document.getElementById("interestResult").textContent =
+        "₹" + compoundInterest.toFixed(2);
+
+    document.getElementById("amountResult").textContent =
+        "₹" + amount.toFixed(2);
+
+    result.style.display = "block";
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("principal").value = "";
+    document.getElementById("rate").value = "";
+    document.getElementById("time").value = "";
+    document.getElementById("frequency").value = "";
+
+    document.getElementById("error").textContent = "";
+    document.getElementById("result").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
