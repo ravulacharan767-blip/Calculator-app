@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Basic Calculator - SmartCalc</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 42px);
+    }
+
+    header p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .container {
+      width: min(94%, 500px);
+      margin: 30px auto;
+    }
+
+    .calculator {
+      background: white;
+      padding: 22px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .display {
+      width: 100%;
+      min-height: 100px;
+      background: #111827;
+      color: white;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      overflow-x: auto;
+    }
+
+    #expression {
+      min-height: 24px;
+      font-size: 17px;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+
+    #display {
+      font-size: clamp(30px, 8vw, 42px);
+      font-weight: bold;
+      margin-top: 8px;
+      white-space: nowrap;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      min-height: 62px;
+      padding: 12px 8px;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #e5e7eb;
+      color: #111827;
+      touch-action: manipulation;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .operator {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .function {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .clear {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .delete {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .equals {
+      background: #2563eb;
+      color: white;
+    }
+
+    .zero {
+      grid-column: span 2;
+    }
+
+    .info {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f8fafc;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 22px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px auto;
+      }
+
+      .calculator {
+        padding: 15px;
+      }
+
+      button {
+        min-height: 56px;
+        font-size: 17px;
+      }
+    }
+
+    @media (min-width: 601px) {
+      button {
+        min-height: 65px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Basic Calculator</h1>
+  <p>Simple and powerful everyday calculations</p>
+</header>
+
+<div class="container">
+
+  <div class="calculator">
+
+    <div class="display">
+      <div id="expression"></div>
+      <div id="display">0</div>
+    </div>
+
+    <div class="buttons">
+
+      <!-- Row 1 -->
+      <button class="clear" onclick="clearCalculator()">AC</button>
+      <button class="delete" onclick="deleteLast()">DEL</button>
+      <button class="function" onclick="changeSign()">+/-</button>
+      <button class="operator" onclick="chooseOperator('/')">÷</button>
+
+      <!-- Row 2 -->
+      <button class="function" onclick="squareRoot()">√</button>
+      <button class="function" onclick="squareNumber()">x²</button>
+      <button class="function" onclick="reciprocal()">1/x</button>
+      <button class="operator" onclick="chooseOperator('*')">×</button>
+
+      <!-- Row 3 -->
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button class="operator" onclick="chooseOperator('-')">−</button>
+
+      <!-- Row 4 -->
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button class="operator" onclick="chooseOperator('+')">+</button>
+
+      <!-- Row 5 -->
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button class="function" onclick="percentage()">%</button>
+
+      <!-- Row 6 -->
+      <button class="zero" onclick="appendNumber('0')">0</button>
+      <button onclick="appendNumber('00')">00</button>
+      <button onclick="appendDecimal()">.</button>
+
+      <!-- Row 7 -->
+      <button class="equals" style="grid-column: span 4;" onclick="calculate()">=</button>
+
+    </div>
+
+    <div class="info">
+      <strong>Features:</strong><br>
+      Addition, subtraction, multiplication, division,
+      percentage, square root, square, reciprocal,
+      positive/negative, decimal and delete.
+    </div>
+
+    <a href="index.html" class="back">
+      ← Back to SmartCalc
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+
+  let currentValue = "";
+  let previousValue = "";
+  let operator = null;
+  let waitingForNewValue = false;
+
+  const display = document.getElementById("display");
+  const expression = document.getElementById("expression");
+
+  function updateDisplay() {
+    display.textContent = currentValue || "0";
+  }
+
+  function appendNumber(number) {
+
+    if (waitingForNewValue) {
+      currentValue = "";
+      waitingForNewValue = false;
+    }
+
+    if (currentValue === "0") {
+      currentValue = number;
+    } else {
+      currentValue += number;
+    }
+
+    updateDisplay();
+  }
+
+  function appendDecimal() {
+
+    if (waitingForNewValue) {
+      currentValue = "0";
+      waitingForNewValue = false;
+    }
+
+    if (!currentValue.includes(".")) {
+      currentValue += ".";
+    }
+
+    updateDisplay();
+  }
+
+  function chooseOperator(selectedOperator) {
+
+    if (currentValue === "") return;
+
+    if (operator !== null && !waitingForNewValue) {
+      calculate();
+    }
+
+    previousValue = currentValue;
+    operator = selectedOperator;
+    waitingForNewValue = true;
+
+    expression.textContent =
+      previousValue + " " + displayOperator(operator);
+  }
+
+  function calculate() {
+
+    if (
+      operator === null ||
+      previousValue === "" ||
+      currentValue === ""
+    ) {
+      return;
+    }
+
+    const first = Number(previousValue);
+    const second = Number(currentValue);
+
+    let result;
+
+    if (operator === "+") {
+      result = first + second;
+    }
+
+    else if (operator === "-") {
+      result = first - second;
+    }
+
+    else if (operator === "*") {
+      result = first * second;
+    }
+
+    else if (operator === "/") {
+
+      if (second === 0) {
+        showError("Cannot divide by zero.");
+        return;
+      }
+
+      result = first / second;
+    }
+
+    result = Number(result.toFixed(10));
+
+    expression.textContent =
+      first + " " +
+      displayOperator(operator) +
+      " " + second + " =";
+
+    currentValue = String(result);
+
+    previousValue = "";
+    operator = null;
+    waitingForNewValue = true;
+
+    updateDisplay();
+  }
+
+  function percentage() {
+
+    if (currentValue === "") return;
+
+    currentValue =
+      String(Number(currentValue) / 100);
+
+    updateDisplay();
+  }
+
+  function changeSign() {
+
+    if (currentValue === "") return;
+
+    if (Number(currentValue) === 0) return;
+
+    currentValue =
+      String(Number(currentValue) * -1);
+
+    updateDisplay();
+  }
+
+  function squareRoot() {
+
+    if (currentValue === "") return;
+
+    const number = Number(currentValue);
+
+    if (number < 0) {
+      showError("Cannot calculate square root of a negative number.");
+      return;
+    }
+
+    expression.textContent = "√" + number;
+
+    currentValue =
+      String(Number(Math.sqrt(number).toFixed(10)));
+
+    waitingForNewValue = true;
+
+    updateDisplay();
+  }
+
+  function squareNumber() {
+
+    if (currentValue === "") return;
+
+    const number = Number(currentValue);
+
+    expression.textContent = number + "²";
+
+    currentValue =
+      String(Number((number * number).toFixed(10)));
+
+    waitingForNewValue = true;
+
+    updateDisplay();
+  }
+
+  function reciprocal() {
+
+    if (currentValue === "") return;
+
+    const number = Number(currentValue);
+
+    if (number === 0) {
+      showError("Cannot divide by zero.");
+      return;
+    }
+
+    expression.textContent = "1/" + number;
+
+    currentValue =
+      String(Number((1 / number).toFixed(10)));
+
+    waitingForNewValue = true;
+
+    updateDisplay();
+  }
+
+  function deleteLast() {
+
+    if (waitingForNewValue) return;
+
+    currentValue =
+      currentValue.slice(0, -1);
+
+    updateDisplay();
+  }
+
+  function clearCalculator() {
+
+    currentValue = "";
+    previousValue = "";
+    operator = null;
+    waitingForNewValue = false;
+
+    expression.textContent = "";
+
+    display.textContent = "0";
+  }
+
+  function showError(message) {
+
+    expression.textContent = message;
+    display.textContent = "Error";
+
+    currentValue = "";
+    previousValue = "";
+    operator = null;
+    waitingForNewValue = true;
+  }
+
+  function displayOperator(op) {
+
+    if (op === "*") return "×";
+    if (op === "/") return "÷";
+    if (op === "-") return "−";
+
+    return "+";
+  }
+
+  /* Keyboard support */
+
+  document.addEventListener("keydown", function(event) {
+
+    const key = event.key;
+
+    if (key >= "0" && key <= "9") {
+      appendNumber(key);
+    }
+
+    else if (key === ".") {
+      appendDecimal();
+    }
+
+    else if (key === "+") {
+      chooseOperator("+");
+    }
+
+    else if (key === "-") {
+      chooseOperator("-");
+    }
+
+    else if (key === "*") {
+      chooseOperator("*");
+    }
+
+    else if (key === "/") {
+      event.preventDefault();
+      chooseOperator("/");
+    }
+
+    else if (key === "%") {
+      percentage();
+    }
+
+    else if (key === "Enter" || key === "=") {
+      calculate();
+    }
+
+    else if (key === "Backspace") {
+      deleteLast();
+    }
+
+    else if (key === "Escape") {
+      clearCalculator();
+    }
+
+  });
+
+  updateDisplay();
+
+</script>
+
+</body>
+</html>
