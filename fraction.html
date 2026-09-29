@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fraction Calculator - SmartCalc</title>
+<meta name="description" content="Calculate fractions with addition, subtraction, multiplication and division.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 25px 16px 35px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.tagline {
+    margin-top: 8px;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+.calculator-box {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.fractions {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 12px;
+    align-items: center;
+}
+
+.fraction-box {
+    text-align: center;
+}
+
+.fraction-box h3 {
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 18px;
+    text-align: center;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+.line {
+    height: 2px;
+    background: #172033;
+    margin: 7px 0;
+}
+
+.operator-select {
+    width: 80px;
+    padding: 13px 5px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    background: white;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calculate-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.reset-btn {
+    background: #e5e7eb;
+    color: #172033;
+}
+
+.error {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 9px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 22px;
+    background: #eff6ff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.result h2 {
+    margin-bottom: 15px;
+}
+
+.answer {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.decimal {
+    margin-top: 10px;
+    color: #475467;
+    font-size: 15px;
+}
+
+.info {
+    margin-top: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
+}
+
+.info h2 {
+    margin-bottom: 12px;
+}
+
+.info p {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    margin-top: 25px;
+}
+
+footer p {
+    color: #cbd5e1;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+@media (max-width: 500px) {
+
+    .calculator-box {
+        padding: 20px;
+    }
+
+    .fractions {
+        grid-template-columns: 1fr 60px 1fr;
+        gap: 8px;
+    }
+
+    .operator-select {
+        width: 60px;
+    }
+
+    .answer {
+        font-size: 28px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🧮 SmartCalc</div>
+    <div class="tagline">
+        Free Online Calculators for Everyday Life
+    </div>
+</header>
+
+<main class="container">
+
+<div class="calculator-box">
+
+    <h1>½ Fraction Calculator</h1>
+
+    <p class="subtitle">
+        Add, subtract, multiply, or divide two fractions.
+    </p>
+
+    <div class="fractions">
+
+        <div class="fraction-box">
+
+            <h3>Fraction 1</h3>
+
+            <input
+                type="number"
+                id="num1"
+                placeholder="Numerator"
+                step="1"
+            >
+
+            <div class="line"></div>
+
+            <input
+                type="number"
+                id="den1"
+                placeholder="Denominator"
+                step="1"
+            >
+
+        </div>
+
+
+        <select
+            id="operator"
+            class="operator-select"
+            aria-label="Operation"
+        >
+            <option value="+">+</option>
+            <option value="-">−</option>
+            <option value="*">×</option>
+            <option value="/">÷</option>
+        </select>
+
+
+        <div class="fraction-box">
+
+            <h3>Fraction 2</h3>
+
+            <input
+                type="number"
+                id="num2"
+                placeholder="Numerator"
+                step="1"
+            >
+
+            <div class="line"></div>
+
+            <input
+                type="number"
+                id="den2"
+                placeholder="Denominator"
+                step="1"
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <button
+            class="calculate-btn"
+            onclick="calculateFraction()"
+        >
+            Calculate
+        </button>
+
+        <button
+            class="reset-btn"
+            onclick="resetCalculator()"
+        >
+            Reset
+        </button>
+
+    </div>
+
+
+    <div
+        class="error"
+        id="error"
+    ></div>
+
+
+    <div
+        class="result"
+        id="result"
+    >
+
+        <h2>Result</h2>
+
+        <div
+            class="answer"
+            id="answer"
+        ></div>
+
+        <div
+            class="decimal"
+            id="decimal"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<div class="info">
+
+    <h2>❓ What is a Fraction?</h2>
+
+    <p>
+        A fraction represents a part of a whole and contains a
+        numerator and a denominator.
+    </p>
+
+    <p>
+        This calculator simplifies the final fraction automatically.
+    </p>
+
+    <p>
+        Division by zero is not allowed.
+    </p>
+
+</div>
+
+</main>
+
+
+<footer>
+
+    <h2>🧮 SmartCalc</h2>
+
+    <p>
+        Free online calculators for everyone.
+    </p>
+
+    <p>
+        © 2026 SmartCalc
+    </p>
+
+</footer>
+
+
+<script>
+
+function gcd(a, b) {
+
+    a = Math.abs(a);
+    b = Math.abs(b);
+
+    while (b !== 0) {
+
+        let temp = b;
+
+        b = a % b;
+
+        a = temp;
+    }
+
+    return a;
+}
+
+
+function simplify(numerator, denominator) {
+
+    if (denominator === 0) {
+
+        throw new Error(
+            "Denominator cannot be zero."
+        );
+    }
+
+    // Keep the negative sign in the numerator
+    if (denominator < 0) {
+
+        numerator = -numerator;
+        denominator = -denominator;
+    }
+
+    const divisor =
+        gcd(numerator, denominator);
+
+    return {
+        numerator:
+            numerator / divisor,
+
+        denominator:
+            denominator / divisor
+    };
+}
+
+
+function calculateFraction() {
+
+    hideError();
+
+    const num1 =
+        Number(document.getElementById("num1").value);
+
+    const den1 =
+        Number(document.getElementById("den1").value);
+
+    const num2 =
+        Number(document.getElementById("num2").value);
+
+    const den2 =
+        Number(document.getElementById("den2").value);
+
+    const operator =
+        document.getElementById("operator").value;
+
+
+    // Empty validation
+    if (
+        document.getElementById("num1").value === "" ||
+        document.getElementById("den1").value === "" ||
+        document.getElementById("num2").value === "" ||
+        document.getElementById("den2").value === ""
+    ) {
+
+        showError(
+            "Please fill in all four fraction fields."
+        );
+
+        return;
+    }
+
+
+    // Denominator validation
+    if (den1 === 0 || den2 === 0) {
+
+        showError(
+            "Denominator cannot be zero."
+        );
+
+        return;
+    }
+
+
+    let numerator;
+    let denominator;
+
+
+    if (operator === "+") {
+
+        numerator =
+            num1 * den2 +
+            num2 * den1;
+
+        denominator =
+            den1 * den2;
+
+    } else if (operator === "-") {
+
+        numerator =
+            num1 * den2 -
+            num2 * den1;
+
+        denominator =
+            den1 * den2;
+
+    } else if (operator === "*") {
+
+        numerator =
+            num1 * num2;
+
+        denominator =
+            den1 * den2;
+
+    } else if (operator === "/") {
+
+        // Cannot divide by a zero fraction
+        if (num2 === 0) {
+
+            showError(
+                "Cannot divide by zero."
+            );
+
+            return;
+        }
+
+        numerator =
+            num1 * den2;
+
+        denominator =
+            den1 * num2;
+    }
+
+
+    try {
+
+        const simplified =
+            simplify(
+                numerator,
+                denominator
+            );
+
+        displayResult(
+            simplified.numerator,
+            simplified.denominator
+        );
+
+    } catch {
+
+        showError(
+            "Unable to calculate the fraction."
+        );
+    }
+}
+
+
+function displayResult(
+    numerator,
+    denominator
+) {
+
+    const result =
+        document.getElementById("result");
+
+    const answer =
+        document.getElementById("answer");
+
+    const decimal =
+        document.getElementById("decimal");
+
+
+    if (denominator === 1) {
+
+        answer.textContent =
+            numerator;
+
+    } else {
+
+        answer.textContent =
+            numerator + " / " + denominator;
+    }
+
+
+    const decimalValue =
+        numerator / denominator;
+
+    decimal.textContent =
+        "Decimal: " +
+        Number(
+            decimalValue.toFixed(10)
+        );
+
+
+    result.style.display =
+        "block";
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("num1").value = "";
+
+    document.getElementById("den1").value = "";
+
+    document.getElementById("num2").value = "";
+
+    document.getElementById("den2").value = "";
+
+    document.getElementById("operator").value = "+";
+
+    document.getElementById("result").style.display =
+        "none";
+
+    hideError();
+}
+
+
+function showError(message) {
+
+    const error =
+        document.getElementById("error");
+
+    error.textContent =
+        message;
+
+    error.style.display =
+        "block";
+}
+
+
+function hideError() {
+
+    document.getElementById("error").style.display =
+        "none";
+}
+
+</script>
+
+</body>
+</html>
