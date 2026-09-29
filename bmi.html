@@ -7,7 +7,7 @@
   <title>BMI Calculator - Calculator App</title>
 
   <meta name="description"
-        content="Calculate BMI using height and weight. Learn the basic meaning of BMI and how it is calculated.">
+        content="Free BMI Calculator with age, gender, height and weight. Learn about BMI, its formula, categories and limitations.">
 
   <style>
     * {
@@ -26,8 +26,8 @@
     header {
       background: linear-gradient(135deg, #2563eb, #4f46e5);
       color: white;
-      padding: 25px 15px;
       text-align: center;
+      padding: 28px 15px;
     }
 
     header h1 {
@@ -37,7 +37,6 @@
 
     header p {
       font-size: 15px;
-      opacity: 0.95;
     }
 
     .container {
@@ -66,16 +65,19 @@
       font-weight: bold;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 13px;
       border: 1px solid #cbd5e1;
       border-radius: 9px;
       font-size: 16px;
+      background: white;
       outline: none;
     }
 
-    input:focus {
+    input:focus,
+    select:focus {
       border-color: #2563eb;
     }
 
@@ -131,14 +133,18 @@
     }
 
     .bmi-number {
-      font-size: 38px;
+      font-size: 40px;
       font-weight: bold;
       margin: 10px 0;
     }
 
+    .result p {
+      line-height: 1.6;
+    }
+
     .info p {
       line-height: 1.7;
-      margin-bottom: 12px;
+      margin-bottom: 13px;
     }
 
     .formula {
@@ -153,6 +159,7 @@
     ul {
       padding-left: 22px;
       line-height: 1.8;
+      margin-bottom: 15px;
     }
 
     .note {
@@ -162,6 +169,28 @@
       margin-top: 15px;
       line-height: 1.6;
       border-radius: 5px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 11px;
+      text-align: left;
+    }
+
+    th {
+      background: #eff6ff;
+      color: #2563eb;
     }
 
     footer {
@@ -196,9 +225,27 @@
 
   <main class="container">
 
-    <!-- Calculator -->
+    <!-- BMI Calculator -->
     <section class="card">
+
       <h2>Calculate Your BMI</h2>
+
+      <label for="age">Age (years)</label>
+      <input
+        type="number"
+        id="age"
+        placeholder="Enter your age"
+        min="2"
+        max="120"
+        step="1"
+      >
+
+      <label for="gender">Gender</label>
+      <select id="gender">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
 
       <label for="height">Height (cm)</label>
       <input
@@ -223,77 +270,198 @@
       <div id="error" class="error"></div>
 
       <div class="buttons">
-        <button class="calculate" onclick="calculateBMI()">
+
+        <button
+          class="calculate"
+          onclick="calculateBMI()">
           Calculate BMI
         </button>
 
-        <button class="reset" onclick="resetBMI()">
+        <button
+          class="reset"
+          onclick="resetBMI()">
           Reset
         </button>
+
       </div>
 
       <div id="result" class="result">
+
         <h3>Your BMI</h3>
-        <div id="bmiValue" class="bmi-number">0</div>
+
+        <div id="bmiValue" class="bmi-number">
+          0
+        </div>
+
         <p id="bmiMessage"></p>
+
       </div>
+
     </section>
 
-    <!-- Basic Information -->
+
+    <!-- What is BMI -->
     <section class="card info">
+
       <h2>What is BMI?</h2>
 
       <p>
-        BMI stands for <strong>Body Mass Index</strong>. It is a number
-        calculated from a person's height and weight.
+        BMI stands for <strong>Body Mass Index</strong>.
+        It is a numerical value calculated using a person's
+        weight and height.
       </p>
 
       <p>
-        BMI can be used as a screening measurement, but it does not directly
-        measure body fat or provide a complete picture of someone's health.
+        BMI is commonly used as a screening measurement to
+        help assess weight in relation to height.
       </p>
 
       <div class="formula">
         BMI = Weight (kg) ÷ Height² (m²)
       </div>
 
-      <h2>How is BMI calculated?</h2>
+    </section>
+
+
+    <!-- How BMI Works -->
+    <section class="card info">
+
+      <h2>How is BMI Calculated?</h2>
 
       <p>
-        First, height in centimeters is converted into meters. Then the
-        weight in kilograms is divided by height in meters squared.
+        To calculate BMI, height is first converted from
+        centimeters to meters.
       </p>
+
+      <p>
+        The weight in kilograms is then divided by the
+        height in meters squared.
+      </p>
+
+      <div class="formula">
+        Example: 70 kg ÷ (1.75 × 1.75) = 22.9
+      </div>
+
+    </section>
+
+
+    <!-- Adult Categories -->
+    <section class="card info">
 
       <h2>Adult BMI Categories</h2>
 
+      <p>
+        For adults, BMI is commonly grouped into the following
+        categories:
+      </p>
+
+      <div class="table-container">
+
+        <table>
+
+          <tr>
+            <th>BMI</th>
+            <th>Category</th>
+          </tr>
+
+          <tr>
+            <td>Below 18.5</td>
+            <td>Underweight</td>
+          </tr>
+
+          <tr>
+            <td>18.5 – 24.9</td>
+            <td>Healthy weight</td>
+          </tr>
+
+          <tr>
+            <td>25.0 – 29.9</td>
+            <td>Overweight</td>
+          </tr>
+
+          <tr>
+            <td>30.0 or higher</td>
+            <td>Obesity</td>
+          </tr>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- Children and Teenagers -->
+    <section class="card info">
+
+      <h2>BMI for Children & Teenagers</h2>
+
+      <p>
+        BMI is interpreted differently for children and
+        teenagers.
+      </p>
+
+      <p>
+        For ages 2–19, BMI is compared with growth charts
+        using <strong>age and sex</strong>. Adult BMI categories
+        should not be used for children and teenagers.
+      </p>
+
+      <div class="note">
+
+        <strong>Important:</strong>
+        This calculator provides the BMI number, but it does
+        not calculate a child or teenager's BMI-for-age
+        percentile.
+
+      </div>
+
+    </section>
+
+
+    <!-- Benefits -->
+    <section class="card info">
+
+      <h2>Why is BMI Used?</h2>
+
       <ul>
-        <li>Below 18.5 — Underweight</li>
-        <li>18.5 to 24.9 — Healthy weight</li>
-        <li>25.0 to 29.9 — Overweight</li>
-        <li>30.0 or higher — Obesity</li>
+        <li>It is quick and simple to calculate.</li>
+        <li>It uses only height and weight.</li>
+        <li>It can be used as a general screening measurement.</li>
+        <li>It can help identify people who may need further assessment.</li>
+      </ul>
+
+    </section>
+
+
+    <!-- Limitations -->
+    <section class="card info">
+
+      <h2>Limitations of BMI</h2>
+
+      <p>
+        BMI does not directly measure body fat.
+      </p>
+
+      <ul>
+        <li>It does not measure body-fat percentage.</li>
+        <li>It does not show where body fat is stored.</li>
+        <li>It does not account for muscle mass.</li>
+        <li>Age and sex affect how BMI should be interpreted.</li>
       </ul>
 
       <div class="note">
-        <strong>Important:</strong> These categories are for adults.
-        For children and teenagers, BMI is interpreted using age- and
-        sex-specific growth charts rather than adult BMI categories.
+
+        <strong>Remember:</strong>
+        BMI is a screening tool and is not a diagnosis of
+        an individual's health.
+
       </div>
-    </section>
 
-    <!-- Important Information -->
-    <section class="card info">
-      <h2>Things to Know About BMI</h2>
-
-      <ul>
-        <li>BMI is a screening measurement, not a diagnosis.</li>
-        <li>BMI does not directly measure body fat.</li>
-        <li>Age and sex can affect how BMI should be interpreted.</li>
-        <li>For children and teenagers, growth charts are used.</li>
-        <li>Other health and lifestyle factors are also important.</li>
-      </ul>
     </section>
 
   </main>
+
 
   <footer>
     © 2026 Calculator App
@@ -301,84 +469,180 @@
 
 
   <script>
+
     function calculateBMI() {
 
+      const ageInput = document.getElementById("age");
+      const genderInput = document.getElementById("gender");
       const heightInput = document.getElementById("height");
       const weightInput = document.getElementById("weight");
+
       const error = document.getElementById("error");
       const result = document.getElementById("result");
+
       const bmiValue = document.getElementById("bmiValue");
       const bmiMessage = document.getElementById("bmiMessage");
 
+      const age = parseFloat(ageInput.value);
+      const gender = genderInput.value;
       const height = parseFloat(heightInput.value);
       const weight = parseFloat(weightInput.value);
 
       error.style.display = "none";
       result.style.display = "none";
 
-      // Validation
-      if (heightInput.value === "" || weightInput.value === "") {
-        error.textContent = "Please enter both height and weight.";
+
+      // Empty validation
+
+      if (
+        ageInput.value === "" ||
+        gender === "" ||
+        heightInput.value === "" ||
+        weightInput.value === ""
+      ) {
+
+        error.textContent =
+          "Please fill in all fields.";
+
         error.style.display = "block";
+
         return;
       }
 
-      if (!isFinite(height) || !isFinite(weight)) {
-        error.textContent = "Please enter valid numbers.";
+
+      // Number validation
+
+      if (
+        !isFinite(age) ||
+        !isFinite(height) ||
+        !isFinite(weight)
+      ) {
+
+        error.textContent =
+          "Please enter valid numbers.";
+
         error.style.display = "block";
+
         return;
       }
+
+
+      // Age validation
+
+      if (age < 2 || age > 120) {
+
+        error.textContent =
+          "Please enter an age between 2 and 120 years.";
+
+        error.style.display = "block";
+
+        return;
+      }
+
+
+      // Height validation
 
       if (height < 50 || height > 300) {
-        error.textContent = "Please enter a height between 50 cm and 300 cm.";
+
+        error.textContent =
+          "Please enter a height between 50 cm and 300 cm.";
+
         error.style.display = "block";
+
         return;
       }
+
+
+      // Weight validation
 
       if (weight < 2 || weight > 500) {
-        error.textContent = "Please enter a weight between 2 kg and 500 kg.";
+
+        error.textContent =
+          "Please enter a weight between 2 kg and 500 kg.";
+
         error.style.display = "block";
+
         return;
       }
 
-      // Convert cm to meters
-      const heightInMeters = height / 100;
 
-      // BMI formula
-      const bmi = weight / (heightInMeters * heightInMeters);
+      // Convert height to meters
+
+      const heightMeters = height / 100;
+
+
+      // BMI calculation
+
+      const bmi =
+        weight / (heightMeters * heightMeters);
+
+
+      // Display BMI
 
       bmiValue.textContent = bmi.toFixed(1);
 
-      // Adult categories
-      if (bmi < 18.5) {
+
+      // Age-based message
+
+      if (age < 20) {
+
         bmiMessage.textContent =
-          "For adults, this falls in the underweight range.";
-      } else if (bmi < 25) {
-        bmiMessage.textContent =
-          "For adults, this falls in the healthy-weight range.";
-      } else if (bmi < 30) {
-        bmiMessage.textContent =
-          "For adults, this falls in the overweight range.";
+          "BMI: " +
+          bmi.toFixed(1) +
+          ". For people under 20, BMI should be interpreted using age- and sex-specific growth charts.";
+
       } else {
-        bmiMessage.textContent =
-          "For adults, this falls in the obesity range.";
+
+        if (bmi < 18.5) {
+
+          bmiMessage.textContent =
+            "For adults, this falls in the underweight range.";
+
+        } else if (bmi < 25) {
+
+          bmiMessage.textContent =
+            "For adults, this falls in the healthy-weight range.";
+
+        } else if (bmi < 30) {
+
+          bmiMessage.textContent =
+            "For adults, this falls in the overweight range.";
+
+        } else {
+
+          bmiMessage.textContent =
+            "For adults, this falls in the obesity range.";
+
+        }
+
       }
 
+
       result.style.display = "block";
+
     }
 
 
     function resetBMI() {
 
+      document.getElementById("age").value = "";
+
+      document.getElementById("gender").value = "";
+
       document.getElementById("height").value = "";
+
       document.getElementById("weight").value = "";
 
       document.getElementById("error").style.display = "none";
+
       document.getElementById("result").style.display = "none";
 
       document.getElementById("bmiValue").textContent = "0";
+
       document.getElementById("bmiMessage").textContent = "";
+
     }
+
   </script>
 
 </body>
