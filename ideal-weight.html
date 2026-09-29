@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ideal Weight Calculator - SmartCalc</title>
+<meta name="description" content="Estimate an adult reference weight range based on height.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 25px 16px 35px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+.calculator-box {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.calculator-box h1 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 16px;
+    outline: none;
+    background: white;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calculate-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.reset-btn {
+    background: #e5e7eb;
+    color: #172033;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 15px;
+    text-align: center;
+    display: none;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    background: #eff6ff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.result h2 {
+    margin-bottom: 10px;
+}
+
+.range {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2563eb;
+    margin: 12px 0;
+}
+
+.result p {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.warning {
+    display: none;
+    margin-top: 25px;
+    padding: 16px;
+    background: #fff3cd;
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    color: #7c2d12;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 600;
+}
+
+.warning strong {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.info {
+    margin-top: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
+}
+
+.info h2 {
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.info p {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    margin-top: 25px;
+}
+
+footer p {
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+
+    .logo {
+        font-size: 26px;
+    }
+
+    .calculator-box {
+        padding: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .range {
+        font-size: 24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🧮 SmartCalc</div>
+
+    <div class="tagline">
+        Free Online Calculators for Everyday Life
+    </div>
+</header>
+
+<main class="container">
+
+<div class="calculator-box">
+
+    <h1>⚖️ Ideal Weight Calculator</h1>
+
+    <p class="subtitle">
+        Estimate an adult reference weight range based on height.
+    </p>
+
+    <label for="age">Age</label>
+
+    <input
+        type="number"
+        id="age"
+        placeholder="Enter age"
+        min="2"
+        max="120"
+        step="1"
+    >
+
+    <label for="gender">Gender</label>
+
+    <select id="gender">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+
+    <label for="height">Height (cm)</label>
+
+    <input
+        type="number"
+        id="height"
+        placeholder="Enter height"
+        min="50"
+        max="250"
+        step="0.1"
+    >
+
+    <div class="buttons">
+
+        <button
+            class="calculate-btn"
+            onclick="calculateWeight()"
+        >
+            Calculate
+        </button>
+
+        <button
+            class="reset-btn"
+            onclick="resetCalculator()"
+        >
+            Reset
+        </button>
+
+    </div>
+
+    <div
+        class="error"
+        id="error"
+    ></div>
+
+    <div
+        class="result"
+        id="result"
+    >
+
+        <h2>Estimated Adult Reference Range</h2>
+
+        <div
+            class="range"
+            id="rangeResult"
+        >
+        </div>
+
+        <p>
+            This range is calculated using adult BMI reference values
+            and your height. It is not a personal ideal-weight target.
+        </p>
+
+    </div>
+
+    <div
+        class="warning"
+        id="under18Warning"
+    >
+
+        <strong>
+            ⚠️ IMPORTANT FOR CHILDREN & TEENAGERS
+        </strong>
+
+        This calculator does not calculate a target or reference
+        weight for people under 18.
+
+        Children and teenagers are still growing, and weight assessment
+        uses age- and sex-specific growth information.
+
+        If you have concerns about growth or weight, speak with a
+        parent, doctor, or qualified healthcare professional.
+
+    </div>
+
+</div>
+
+
+<div class="info">
+
+    <h2>❓ What is Calculate?</h2>
+
+    <p>
+        For adults, this calculator estimates a reference weight range
+        from height using BMI values of 18.5 and 24.9.
+    </p>
+
+    <p>
+        BMI is calculated from height and weight. The resulting range
+        should be treated as a general reference rather than a
+        definition of a person's healthy or ideal body.
+    </p>
+
+    <p>
+        For people under 18, adult BMI reference ranges are not used
+        because growth and development need to be considered.
+    </p>
+
+</div>
+
+</main>
+
+
+<footer>
+
+    <h2>🧮 SmartCalc</h2>
+
+    <p>
+        Free online calculators for everyone.
+    </p>
+
+    <p>
+        © 2026 SmartCalc
+    </p>
+
+</footer>
+
+
+<script>
+
+function calculateWeight() {
+
+    const age =
+        Number(document.getElementById("age").value);
+
+    const gender =
+        document.getElementById("gender").value;
+
+    const height =
+        Number(document.getElementById("height").value);
+
+    const error =
+        document.getElementById("error");
+
+    const result =
+        document.getElementById("result");
+
+    const warning =
+        document.getElementById("under18Warning");
+
+    error.style.display = "none";
+    result.style.display = "none";
+    warning.style.display = "none";
+
+    // Empty fields
+    if (!age || !gender || !height) {
+
+        showError("Please fill in all fields.");
+
+        return;
+    }
+
+    // Age validation
+    if (age < 2 || age > 120) {
+
+        showError(
+            "Please enter an age between 2 and 120."
+        );
+
+        return;
+    }
+
+    // Height validation
+    if (height < 50 || height > 250) {
+
+        showError(
+            "Please enter a valid height between 50 and 250 cm."
+        );
+
+        return;
+    }
+
+    // Under 18
+    if (age < 18) {
+
+        warning.style.display = "block";
+
+        return;
+    }
+
+    /*
+       Adult reference range:
+       BMI 18.5 to 24.9
+    */
+
+    const heightMeters = height / 100;
+
+    const minimumWeight =
+        18.5 * heightMeters * heightMeters;
+
+    const maximumWeight =
+        24.9 * heightMeters * heightMeters;
+
+    const min =
+        minimumWeight.toFixed(1);
+
+    const max =
+        maximumWeight.toFixed(1);
+
+    document.getElementById(
+        "rangeResult"
+    ).textContent =
+        min + " kg – " + max + " kg";
+
+    result.style.display = "block";
+}
+
+
+function showError(message) {
+
+    const error =
+        document.getElementById("error");
+
+    error.textContent = message;
+
+    error.style.display = "block";
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("age").value = "";
+
+    document.getElementById("gender").value = "";
+
+    document.getElementById("height").value = "";
+
+    document.getElementById("error").style.display = "none";
+
+    document.getElementById("result").style.display = "none";
+
+    document.getElementById(
+        "under18Warning"
+    ).style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
