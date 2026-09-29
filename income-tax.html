@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Income Tax Calculator - SmartCalc</title>
+    <meta name="description" content="Calculate estimated income tax under India's new tax regime.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #182033;
+        }
+
+        .top-bar {
+            height: 8px;
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2864d7;
+            font-size: 36px;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #687386;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #d1d7df;
+            border-radius: 14px;
+            font-size: 18px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2864d7;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 17px;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .calculate {
+            background: #2557d6;
+            color: white;
+        }
+
+        .reset {
+            background: #e5e7eb;
+            color: #222;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            min-height: 22px;
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #eef6ff;
+            border-radius: 20px;
+        }
+
+        .result h2 {
+            text-align: center;
+            color: #2864d7;
+            margin-top: 0;
+        }
+
+        .result-box {
+            background: white;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .result-label {
+            color: #687386;
+            font-size: 18px;
+        }
+
+        .result-value {
+            color: #2864d7;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .info {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        .info h2 {
+            color: #2864d7;
+        }
+
+        .info p,
+        .info li {
+            color: #4b5563;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .note {
+            background: #fff7ed;
+            padding: 15px;
+            border-radius: 12px;
+            color: #7c2d12;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #687386;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .calculator {
+                padding: 25px 18px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-bar"></div>
+
+<div class="container">
+
+    <div class="calculator">
+
+        <h1>🧾 Income Tax Calculator</h1>
+
+        <p class="subtitle">
+            Estimate income tax using India's new tax regime
+        </p>
+
+        <label for="income">Annual Income (₹)</label>
+
+        <input
+            type="number"
+            id="income"
+            placeholder="Enter annual income"
+            min="0"
+            step="0.01"
+        >
+
+        <label for="salaryType">Income Type</label>
+
+        <select id="salaryType">
+            <option value="salary">Salary / Pension</option>
+            <option value="other">Other Income</option>
+        </select>
+
+        <div class="buttons">
+
+            <button class="calculate" onclick="calculateTax()">
+                Calculate
+            </button>
+
+            <button class="reset" onclick="resetCalculator()">
+                Reset
+            </button>
+
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+
+            <h2>Calculation Result</h2>
+
+            <div class="result-box">
+                <div class="result-label">
+                    Gross Income
+                </div>
+
+                <div class="result-value" id="grossIncome">
+                    ₹0.00
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-label">
+                    Standard Deduction
+                </div>
+
+                <div class="result-value" id="standardDeduction">
+                    ₹0.00
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-label">
+                    Taxable Income
+                </div>
+
+                <div class="result-value" id="taxableIncome">
+                    ₹0.00
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-label">
+                    Income Tax Before Cess
+                </div>
+
+                <div class="result-value" id="incomeTax">
+                    ₹0.00
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-label">
+                    Health & Education Cess (4%)
+                </div>
+
+                <div class="result-value" id="cess">
+                    ₹0.00
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-label">
+                    Estimated Total Tax
+                </div>
+
+                <div class="result-value" id="totalTax">
+                    ₹0.00
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="info">
+
+        <h2>📚 About this Calculator</h2>
+
+        <p>
+            This calculator provides an estimate using the
+            <strong>new tax regime for AY 2026–27</strong>.
+        </p>
+
+        <h2>🧮 New Tax Regime Slabs</h2>
+
+        <ul>
+            <li>Up to ₹4,00,000 — Nil</li>
+            <li>₹4,00,001 to ₹8,00,000 — 5%</li>
+            <li>₹8,00,001 to ₹12,00,000 — 10%</li>
+            <li>₹12,00,001 to ₹16,00,000 — 15%</li>
+            <li>₹16,00,001 to ₹20,00,000 — 20%</li>
+            <li>₹20,00,001 to ₹24,00,000 — 25%</li>
+            <li>Above ₹24,00,000 — 30%</li>
+        </ul>
+
+        <h2>💡 Standard Deduction</h2>
+
+        <p>
+            Salaried individuals and pensioners can have a
+            ₹75,000 standard deduction under the new regime.
+        </p>
+
+        <div class="note">
+            This is an estimated calculator and does not cover every
+            deduction, exemption, surcharge, special-rate income,
+            or individual tax situation.
+        </div>
+
+    </div>
+
+    <footer>
+        🧮 SmartCalc
+    </footer>
+
+</div>
+
+<script>
+
+function calculateTax() {
+
+    const incomeInput = document.getElementById("income").value.trim();
+    const salaryType = document.getElementById("salaryType").value;
+
+    const error = document.getElementById("error");
+    const result = document.getElementById("result");
+
+    error.textContent = "";
+    result.style.display = "none";
+
+    if (incomeInput === "") {
+        error.textContent = "Please enter your annual income.";
+        return;
+    }
+
+    const grossIncome = Number(incomeInput);
+
+    if (!Number.isFinite(grossIncome) || grossIncome < 0) {
+        error.textContent = "Please enter a valid income.";
+        return;
+    }
+
+    // Standard deduction for salary/pension
+    const standardDeduction =
+        salaryType === "salary"
+        ? Math.min(75000, grossIncome)
+        : 0;
+
+    const taxableIncome =
+        Math.max(0, grossIncome - standardDeduction);
+
+    let tax = 0;
+
+    // New tax regime AY 2026-27
+    if (taxableIncome > 2400000) {
+
+        tax =
+            200000 +
+            300000 +
+            300000 +
+            300000 +
+            300000 +
+            (taxableIncome - 2400000) * 0.30;
+
+    } else if (taxableIncome > 2000000) {
+
+        tax =
+            200000 +
+            300000 +
+            300000 +
+            300000 +
+            (taxableIncome - 2000000) * 0.25;
+
+    } else if (taxableIncome > 1600000) {
+
+        tax =
+            200000 +
+            300000 +
+            300000 +
+            (taxableIncome - 1600000) * 0.20;
+
+    } else if (taxableIncome > 1200000) {
+
+        tax =
+            200000 +
+            300000 +
+            (taxableIncome - 1200000) * 0.15;
+
+    } else if (taxableIncome > 800000) {
+
+        tax =
+            200000 +
+            (taxableIncome - 800000) * 0.10;
+
+    } else if (taxableIncome > 400000) {
+
+        tax =
+            (taxableIncome - 400000) * 0.05;
+
+    } else {
+
+        tax = 0;
+    }
+
+    /*
+       Section 87A rebate:
+       Eligible income up to ₹12 lakh can receive
+       rebate up to ₹60,000.
+    */
+
+    if (taxableIncome <= 1200000) {
+        tax = Math.max(0, tax - Math.min(tax, 60000));
+    }
+
+    /*
+       Simplified marginal relief around ₹12 lakh.
+    */
+
+    if (taxableIncome > 1200000 && taxableIncome <= 1270000) {
+
+        const excessIncome = taxableIncome - 1200000;
+
+        if (tax > excessIncome) {
+            tax = excessIncome;
+        }
+    }
+
+    const cess = tax * 0.04;
+
+    const totalTax = tax + cess;
+
+    document.getElementById("grossIncome").textContent =
+        "₹" + grossIncome.toFixed(2);
+
+    document.getElementById("standardDeduction").textContent =
+        "₹" + standardDeduction.toFixed(2);
+
+    document.getElementById("taxableIncome").textContent =
+        "₹" + taxableIncome.toFixed(2);
+
+    document.getElementById("incomeTax").textContent =
+        "₹" + tax.toFixed(2);
+
+    document.getElementById("cess").textContent =
+        "₹" + cess.toFixed(2);
+
+    document.getElementById("totalTax").textContent =
+        "₹" + totalTax.toFixed(2);
+
+    result.style.display = "block";
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("income").value = "";
+
+    document.getElementById("salaryType").value = "salary";
+
+    document.getElementById("error").textContent = "";
+
+    document.getElementById("result").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
