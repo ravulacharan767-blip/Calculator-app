@@ -1,307 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>EMI Calculator - SmartCalc</title>
-<meta name="description" content="Calculate your monthly loan EMI, total interest and total repayment with SmartCalc.">
+  <title>EMI Calculator - SmartCalc</title>
+  <meta name="description" content="Free EMI calculator to calculate monthly EMI, total interest and total payment.">
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8175825864588194"
+    crossorigin="anonymous"></script>
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f7fb;
-    color: #172033;
-}
-
-header {
-    background: linear-gradient(135deg, #2563eb, #4f46e5);
-    color: white;
-    text-align: center;
-    padding: 25px 15px;
-}
-
-header a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-header h1 {
-    margin-top: 15px;
-    font-size: 30px;
-}
-
-.container {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 15px;
-}
-
-.calculator {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-top: 18px;
-    margin-bottom: 7px;
-}
-
-input {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    font-size: 16px;
-    outline: none;
-}
-
-input:focus {
-    border-color: #2563eb;
-}
-
-button {
-    width: 100%;
-    margin-top: 25px;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    background: #2563eb;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-.result {
-    display: none;
-    margin-top: 25px;
-}
-
-.result-box {
-    background: #eef4ff;
-    padding: 18px;
-    border-radius: 15px;
-    margin-top: 12px;
-}
-
-.result-box h2 {
-    color: #2563eb;
-    margin-bottom: 8px;
-}
-
-.result-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid #dbe4f0;
-}
-
-.result-row:last-child {
-    border-bottom: none;
-}
-
-.explanation {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    margin-top: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-}
-
-.explanation h2 {
-    margin-bottom: 12px;
-}
-
-.explanation p {
-    line-height: 1.7;
-    color: #4b5563;
-}
-
-footer {
-    text-align: center;
-    padding: 30px 15px;
-    color: #6b7280;
-}
-
-@media (max-width: 600px) {
-    .container {
-        margin-top: 15px;
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .calculator {
-        padding: 20px;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      text-align: center;
+      padding: 28px 15px;
     }
 
     header h1 {
-        font-size: 25px;
+      font-size: 30px;
+      margin-bottom: 5px;
     }
-}
-</style>
+
+    header p {
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    .container {
+      width: 94%;
+      max-width: 600px;
+      margin: 30px auto;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #dbe2ea;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    input.invalid {
+      border-color: #dc2626;
+      background: #fff5f5;
+    }
+
+    .error {
+      color: #dc2626;
+      font-size: 13px;
+      margin-top: 5px;
+      min-height: 18px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .reset {
+      background: #64748b;
+      margin-top: 10px;
+    }
+
+    .results {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .result-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+      border-left: 5px solid #2563eb;
+    }
+
+    .result-box span {
+      display: block;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .result-box strong {
+      display: block;
+      font-size: 23px;
+      margin-top: 3px;
+    }
+
+    .interest {
+      border-left-color: #16a34a;
+    }
+
+    .interest strong {
+      color: #16a34a;
+    }
+
+    .note {
+      background: #eff6ff;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #334155;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 26px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-
-<a href="index.html">← Back to SmartCalc</a>
-
-<h1>💰 EMI Calculator</h1>
-
-<p>Calculate your monthly loan payment</p>
-
+  <h1>🧮 EMI Calculator</h1>
+  <p>Calculate your monthly loan EMI</p>
 </header>
 
 <div class="container">
 
-<div class="calculator">
+  <div class="card">
 
-<label for="loan">Loan Amount (₹)</label>
-<input
-    type="number"
-    id="loan"
-    placeholder="Example: 500000"
-    min="1"
-    max="100000000"
->
+    <!-- Loan Amount -->
+    <div class="input-group">
+      <label for="loanAmount">Loan Amount (₹)</label>
 
-<label for="rate">Annual Interest Rate (%)</label>
-<input
-    type="number"
-    id="rate"
-    placeholder="Example: 8.5"
-    step="0.01"
-    min="0"
-    max="50"
->
+      <input
+        type="number"
+        id="loanAmount"
+        value="0"
+        min="0"
+        step="1"
+      >
 
-<label for="years">Loan Tenure (Years)</label>
-<input
-    type="number"
-    id="years"
-    placeholder="Example: 5"
-    min="1"
-    max="40"
->
+      <div class="error" id="loanAmountError"></div>
+    </div>
 
-<button onclick="calculateEMI()">
-    Calculate EMI
-</button>
 
-<div class="result" id="result">
+    <!-- Interest Rate -->
+    <div class="input-group">
+      <label for="interestRate">Annual Interest Rate (%)</label>
 
-    <div class="result-box">
+      <input
+        type="number"
+        id="interestRate"
+        value="0"
+        min="0"
+        max="100"
+        step="0.01"
+      >
 
-        <h2 id="monthlyEMI">₹0</h2>
-        <p>Monthly EMI</p>
+      <div class="error" id="interestRateError"></div>
+    </div>
 
-        <div class="result-row">
-            <span>Principal Amount</span>
-            <strong id="principal">₹0</strong>
-        </div>
 
-        <div class="result-row">
-            <span>Total Interest</span>
-            <strong id="interest">₹0</strong>
-        </div>
+    <!-- Tenure -->
+    <div class="input-group">
+      <label for="loanYears">Loan Tenure (Years)</label>
 
-        <div class="result-row">
-            <span>Total Payment</span>
-            <strong id="total">₹0</strong>
-        </div>
+      <input
+        type="number"
+        id="loanYears"
+        value="0"
+        min="0"
+        max="100"
+        step="1"
+      >
+
+      <div class="error" id="loanYearsError"></div>
+    </div>
+
+
+    <button onclick="calculateEMI()">
+      Calculate EMI
+    </button>
+
+    <button class="reset" onclick="resetCalculator()">
+      Reset
+    </button>
+
+
+    <!-- Results -->
+    <div class="results" id="results">
+
+      <div class="result-box">
+        <span>Monthly EMI</span>
+        <strong id="monthlyEMI">₹0</strong>
+      </div>
+
+      <div class="result-box interest">
+        <span>Total Interest</span>
+        <strong id="totalInterest">₹0</strong>
+      </div>
+
+      <div class="result-box">
+        <span>Total Payment</span>
+        <strong id="totalPayment">₹0</strong>
+      </div>
 
     </div>
 
-</div>
 
-</div>
+    <div class="note">
+      ⚠️ EMI results are estimates. Actual loan terms may differ.
+    </div>
 
-
-<div class="explanation">
-
-<h2>What is EMI?</h2>
-
-<p>
-EMI stands for Equated Monthly Instalment. It is the fixed amount
-you generally pay every month toward a loan. The EMI includes both
-the principal amount and the interest charged by the lender.
-</p>
-
-<br>
-
-<h2>How is EMI calculated?</h2>
-
-<p>
-The calculator uses the loan amount, annual interest rate and loan
-tenure to calculate the monthly payment. The total interest is then
-calculated from the total payments over the loan period.
-</p>
-
-<br>
-
-<h2>Understanding your result</h2>
-
-<p>
-<strong>Monthly EMI</strong> is the estimated amount payable each month.
-<strong>Total Interest</strong> is the estimated interest paid over the
-full loan period. <strong>Total Payment</strong> is the principal plus
-the total interest.
-</p>
-
-</div>
+  </div>
 
 </div>
 
 <footer>
-© 2026 SmartCalc — Free Online Calculators
+  © 2026 SmartCalc — EMI Calculator
 </footer>
 
 
 <script>
 
-function calculateEMI() {
+  // Format Indian currency
+  function formatMoney(number) {
+    return "₹" + Math.round(number).toLocaleString("en-IN");
+  }
 
-    const loan = parseFloat(
-        document.getElementById("loan").value
+
+  // Show validation error
+  function showError(id, message) {
+    document.getElementById(id).classList.add("invalid");
+    document.getElementById(id + "Error").textContent = message;
+  }
+
+
+  // Clear validation errors while typing
+  document.getElementById("loanAmount").addEventListener("input", function () {
+    this.classList.remove("invalid");
+    document.getElementById("loanAmountError").textContent = "";
+  });
+
+  document.getElementById("interestRate").addEventListener("input", function () {
+    this.classList.remove("invalid");
+    document.getElementById("interestRateError").textContent = "";
+  });
+
+  document.getElementById("loanYears").addEventListener("input", function () {
+    this.classList.remove("invalid");
+    document.getElementById("loanYearsError").textContent = "";
+  });
+
+
+  // Calculate EMI
+  function calculateEMI() {
+
+    const loanAmount = parseFloat(
+      document.getElementById("loanAmount").value
     );
 
     const annualRate = parseFloat(
-        document.getElementById("rate").value
+      document.getElementById("interestRate").value
     );
 
     const years = parseFloat(
-        document.getElementById("years").value
+      document.getElementById("loanYears").value
     );
 
-    if (
-        isNaN(loan) ||
-        isNaN(annualRate) ||
-        isNaN(years) ||
-        loan < 1 ||
-        loan > 100000000 ||
-        annualRate < 0 ||
-        annualRate > 50 ||
-        years < 1 ||
-        years > 40
-    ) {
-        alert("Please enter valid loan details. Loan: ₹1-10 crore, Interest: 0-50%, Tenure: 1-40 years.");
-        return;
+
+    // Clear old errors
+    document.querySelectorAll(".error").forEach(function (error) {
+      error.textContent = "";
+    });
+
+    document.querySelectorAll("input").forEach(function (input) {
+      input.classList.remove("invalid");
+    });
+
+
+    let valid = true;
+
+
+    // Loan amount validation
+    if (isNaN(loanAmount) || loanAmount <= 0) {
+      showError(
+        "loanAmount",
+        "Please enter a loan amount greater than ₹0."
+      );
+
+      valid = false;
     }
+
+
+    // Interest rate validation
+    if (
+      isNaN(annualRate) ||
+      annualRate < 0 ||
+      annualRate > 100
+    ) {
+      showError(
+        "interestRate",
+        "Please enter an interest rate between 0% and 100%."
+      );
+
+      valid = false;
+    }
+
+
+    // Tenure validation
+    if (
+      isNaN(years) ||
+      years <= 0 ||
+      years > 100
+    ) {
+      showError(
+        "loanYears",
+        "Please enter a tenure between 1 and 100 years."
+      );
+
+      valid = false;
+    }
+
+
+    // Don't calculate invalid values
+    if (!valid) {
+      document.getElementById("results").style.display = "none";
+      return;
+    }
+
 
     const months = years * 12;
 
@@ -309,52 +392,66 @@ function calculateEMI() {
 
     let emi;
 
+
+    // Special case for 0% interest
     if (monthlyRate === 0) {
 
-        emi = loan / months;
+      emi = loanAmount / months;
 
     } else {
 
-        emi =
-            loan *
-            monthlyRate *
-            Math.pow(1 + monthlyRate, months) /
-            (Math.pow(1 + monthlyRate, months) - 1);
+      emi =
+        loanAmount *
+        monthlyRate *
+        Math.pow(1 + monthlyRate, months)
+        /
+        (Math.pow(1 + monthlyRate, months) - 1);
 
     }
 
+
     const totalPayment = emi * months;
 
-    const totalInterest = totalPayment - loan;
+    const totalInterest = totalPayment - loanAmount;
 
+
+    // Display results
     document.getElementById("monthlyEMI").textContent =
-        formatMoney(emi);
+      formatMoney(emi);
 
-    document.getElementById("principal").textContent =
-        formatMoney(loan);
+    document.getElementById("totalInterest").textContent =
+      formatMoney(totalInterest);
 
-    document.getElementById("interest").textContent =
-        formatMoney(totalInterest);
-
-    document.getElementById("total").textContent =
-        formatMoney(totalPayment);
-
-    document.getElementById("result").style.display = "block";
-}
+    document.getElementById("totalPayment").textContent =
+      formatMoney(totalPayment);
 
 
-function formatMoney(amount) {
+    document.getElementById("results").style.display = "block";
+  }
 
-    return "₹" + amount.toLocaleString(
-        "en-IN",
-        {
-            maximumFractionDigits: 2
-        }
-    );
 
-}
+  // Reset everything back to zero
+  function resetCalculator() {
+
+    document.getElementById("loanAmount").value = "0";
+    document.getElementById("interestRate").value = "0";
+    document.getElementById("loanYears").value = "0";
+
+
+    document.querySelectorAll("input").forEach(function (input) {
+      input.classList.remove("invalid");
+    });
+
+
+    document.querySelectorAll(".error").forEach(function (error) {
+      error.textContent = "";
+    });
+
+
+    document.getElementById("results").style.display = "none";
+  }
 
 </script>
 
 </body>
-  </html>
+</html>
