@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calorie Calculator - SmartCalc</title>
+<meta name="description" content="Calculate estimated daily calorie needs with SmartCalc.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 25px 16px 35px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+.calculator-box {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.calculator-box h1 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #667085;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 7px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #2563eb;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calculate-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.reset-btn {
+    background: #e5e7eb;
+    color: #172033;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 15px;
+    text-align: center;
+    display: none;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    background: #eff6ff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.result h2 {
+    margin-bottom: 10px;
+}
+
+.calories {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2563eb;
+    margin: 10px 0;
+}
+
+.result p {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.info {
+    margin-top: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
+}
+
+.info h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.info p {
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.warning {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fff7ed;
+    border-radius: 9px;
+    color: #9a3412;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    margin-top: 25px;
+}
+
+footer p {
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+    .logo {
+        font-size: 26px;
+    }
+
+    .calculator-box {
+        padding: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🧮 SmartCalc</div>
+    <div class="tagline">Free Online Calculators for Everyday Life</div>
+</header>
+
+<main class="container">
+
+<div class="calculator-box">
+
+    <h1>🔥 Calorie Calculator</h1>
+
+    <p class="subtitle">
+        Estimate your daily calorie needs based on your age, body measurements and activity.
+    </p>
+
+    <label for="age">Age</label>
+    <input
+        type="number"
+        id="age"
+        placeholder="Enter age"
+        min="2"
+        max="120"
+        step="1"
+    >
+
+    <label for="gender">Gender</label>
+    <select id="gender">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+
+    <label for="height">Height (cm)</label>
+    <input
+        type="number"
+        id="height"
+        placeholder="Enter height"
+        min="50"
+        max="250"
+        step="0.1"
+    >
+
+    <label for="weight">Weight (kg)</label>
+    <input
+        type="number"
+        id="weight"
+        placeholder="Enter weight"
+        min="10"
+        max="300"
+        step="0.1"
+    >
+
+    <label for="activity">Activity Level</label>
+    <select id="activity">
+        <option value="">Select activity level</option>
+        <option value="1.2">Sedentary - little or no exercise</option>
+        <option value="1.375">Lightly active - light exercise</option>
+        <option value="1.55">Moderately active - moderate exercise</option>
+        <option value="1.725">Very active - hard exercise</option>
+    </select>
+
+    <div class="buttons">
+        <button class="calculate-btn" onclick="calculateCalories()">
+            Calculate
+        </button>
+
+        <button class="reset-btn" onclick="resetCalculator()">
+            Reset
+        </button>
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <div class="result" id="result">
+        <h2>Estimated Daily Calories</h2>
+
+        <div class="calories" id="caloriesResult">
+            0 kcal
+        </div>
+
+        <p id="resultText"></p>
+    </div>
+
+</div>
+
+<div class="info">
+
+    <h2>❓ What is Calculate?</h2>
+
+    <p>
+        This calculator estimates the amount of energy your body may need
+        each day based on age, gender, height, weight and activity level.
+    </p>
+
+    <p>
+        For adults, the calculator uses an established resting-energy
+        equation together with an activity factor.
+    </p>
+
+    <p>
+        For people under 18, calorie requirements are estimated using
+        age-specific equations because children and teenagers are still growing.
+    </p>
+
+    <div class="warning">
+        ⚠️ This is an estimate for informational purposes, not a medical
+        or dietary prescription. Children and teenagers have individual
+        growth and nutrition needs, so calorie targets should not be used
+        to restrict food without guidance from a parent, doctor or qualified
+        dietitian.
+    </div>
+
+</div>
+
+</main>
+
+<footer>
+    <h2>🧮 SmartCalc</h2>
+    <p>Free online calculators for everyone.</p>
+    <p>© 2026 SmartCalc</p>
+</footer>
+
+<script>
+
+function calculateCalories() {
+
+    const age = Number(document.getElementById("age").value);
+    const gender = document.getElementById("gender").value;
+    const height = Number(document.getElementById("height").value);
+    const weight = Number(document.getElementById("weight").value);
+    const activity = Number(document.getElementById("activity").value);
+
+    const error = document.getElementById("error");
+    const result = document.getElementById("result");
+
+    error.style.display = "none";
+    result.style.display = "none";
+
+    // Validation
+    if (!age || !gender || !height || !weight || !activity) {
+        showError("Please fill in all fields.");
+        return;
+    }
+
+    if (age < 2 || age > 120) {
+        showError("Please enter an age between 2 and 120.");
+        return;
+    }
+
+    if (height < 50 || height > 250) {
+        showError("Please enter a valid height between 50 and 250 cm.");
+        return;
+    }
+
+    if (weight < 10 || weight > 300) {
+        showError("Please enter a valid weight between 10 and 300 kg.");
+        return;
+    }
+
+    let calories;
+
+    /*
+       UNDER 18
+       Uses age-specific estimated energy equations.
+    */
+
+    if (age < 18) {
+
+        let pa;
+
+        if (gender === "male") {
+
+            if (age <= 8) {
+                pa = 1.0;
+            } else {
+                pa = 1.13;
+            }
+
+            calories =
+                88.5
+                - (61.9 * age)
+                + pa * ((26.7 * weight) + (903 * (height / 100)))
+                + 25;
+
+        } else {
+
+            if (age <= 8) {
+                pa = 1.0;
+            } else {
+                pa = 1.16;
+            }
+
+            calories =
+                135.3
+                - (30.8 * age)
+                + pa * ((10 * weight) + (934 * (height / 100)))
+                + 25;
+        }
+
+    } else {
+
+        /*
+           18+
+           Mifflin-St Jeor equation
+        */
+
+        let bmr;
+
+        if (gender === "male") {
+
+            bmr =
+                (10 * weight) +
+                (6.25 * height) -
+                (5 * age) +
+                5;
+
+        } else {
+
+            bmr =
+                (10 * weight) +
+                (6.25 * height) -
+                (5 * age) -
+                161;
+        }
+
+        calories = bmr * activity;
+    }
+
+    calories = Math.round(calories);
+
+    if (calories <= 0 || !isFinite(calories)) {
+        showError("Unable to calculate. Please check your values.");
+        return;
+    }
+
+    document.getElementById("caloriesResult").textContent =
+        calories.toLocaleString() + " kcal/day";
+
+    if (age < 18) {
+
+        document.getElementById("resultText").textContent =
+            "This is an estimated daily energy requirement. Growth and individual nutritional needs can vary significantly.";
+
+    } else {
+
+        document.getElementById("resultText").textContent =
+            "This is an estimated maintenance calorie requirement based on the information provided.";
+    }
+
+    result.style.display = "block";
+}
+
+
+function showError(message) {
+
+    const error = document.getElementById("error");
+
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("age").value = "";
+    document.getElementById("gender").value = "";
+    document.getElementById("height").value = "";
+    document.getElementById("weight").value = "";
+    document.getElementById("activity").value = "";
+
+    document.getElementById("error").style.display = "none";
+    document.getElementById("result").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
