@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Countdown Calculator - SmartCalc</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 42px);
+    }
+
+    header p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .container {
+      width: min(94%, 750px);
+      margin: 30px auto;
+    }
+
+    .calculator {
+      background: white;
+      padding: clamp(20px, 4vw, 35px);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    .input-group {
+      margin-top: 25px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #dbe2ea;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input[type="date"]:focus {
+      border-color: #2563eb;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #2563eb;
+      color: white;
+    }
+
+    .calculate:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #e5e7eb;
+      color: #222;
+    }
+
+    .reset:hover {
+      background: #d1d5db;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 10px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 25px;
+      background: #eff6ff;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .result h3 {
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .time-box {
+      background: white;
+      padding: 18px 8px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .time-number {
+      display: block;
+      font-size: clamp(25px, 6vw, 38px);
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .time-label {
+      display: block;
+      margin-top: 5px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .finished {
+      font-size: 28px;
+      font-weight: bold;
+      color: #16a34a;
+      margin-top: 15px;
+    }
+
+    .info {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f8fafc;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    .back-button {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .time-box {
+        padding: 15px 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Countdown Calculator</h1>
+    <p>Count down to an important date</p>
+  </header>
+
+  <div class="container">
+
+    <div class="calculator">
+
+      <h2>Set Your Countdown</h2>
+
+      <div class="input-group">
+        <label for="targetDate">Target Date</label>
+
+        <input type="date" id="targetDate">
+      </div>
+
+      <div class="buttons">
+
+        <button class="calculate" onclick="startCountdown()">
+          Start Countdown
+        </button>
+
+        <button class="reset" onclick="resetCountdown()">
+          Reset
+        </button>
+
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="result" id="result">
+
+        <h3>Time Remaining</h3>
+
+        <div class="countdown">
+
+          <div class="time-box">
+            <span class="time-number" id="days">0</span>
+            <span class="time-label">Days</span>
+          </div>
+
+          <div class="time-box">
+            <span class="time-number" id="hours">0</span>
+            <span class="time-label">Hours</span>
+          </div>
+
+          <div class="time-box">
+            <span class="time-number" id="minutes">0</span>
+            <span class="time-label">Minutes</span>
+          </div>
+
+          <div class="time-box">
+            <span class="time-number" id="seconds">0</span>
+            <span class="time-label">Seconds</span>
+          </div>
+
+        </div>
+
+        <div class="finished" id="finished"></div>
+
+      </div>
+
+      <div class="info">
+        <strong>How it works:</strong><br>
+        Choose a future date and start the countdown.
+        SmartCalc will continuously show the remaining
+        days, hours, minutes and seconds.
+      </div>
+
+      <a href="index.html" class="back-button">
+        ← Back to SmartCalc
+      </a>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    let countdownTimer = null;
+
+    function startCountdown() {
+
+      const dateValue =
+        document.getElementById("targetDate").value;
+
+      const error =
+        document.getElementById("error");
+
+      const result =
+        document.getElementById("result");
+
+      const finished =
+        document.getElementById("finished");
+
+      error.style.display = "none";
+      finished.textContent = "";
+
+      if (dateValue === "") {
+
+        showError("Please select a target date.");
+        return;
+      }
+
+      const targetDate =
+        new Date(dateValue + "T23:59:59");
+
+      if (isNaN(targetDate.getTime())) {
+
+        showError("Please select a valid date.");
+        return;
+      }
+
+      if (targetDate.getTime() <= Date.now()) {
+
+        showError("Please select a future date.");
+        return;
+      }
+
+      result.style.display = "block";
+
+      clearInterval(countdownTimer);
+
+      updateCountdown(targetDate);
+
+      countdownTimer = setInterval(function() {
+
+        updateCountdown(targetDate);
+
+      }, 1000);
+    }
+
+    function updateCountdown(targetDate) {
+
+      const now = new Date();
+
+      const difference =
+        targetDate.getTime() - now.getTime();
+
+      if (difference <= 0) {
+
+        clearInterval(countdownTimer);
+
+        document.getElementById("days").textContent = "0";
+        document.getElementById("hours").textContent = "0";
+        document.getElementById("minutes").textContent = "0";
+        document.getElementById("seconds").textContent = "0";
+
+        document.getElementById("finished").textContent =
+          "🎉 Countdown finished!";
+
+        return;
+      }
+
+      const totalSeconds =
+        Math.floor(difference / 1000);
+
+      const days =
+        Math.floor(totalSeconds / 86400);
+
+      const hours =
+        Math.floor((totalSeconds % 86400) / 3600);
+
+      const minutes =
+        Math.floor((totalSeconds % 3600) / 60);
+
+      const seconds =
+        totalSeconds % 60;
+
+      document.getElementById("days").textContent =
+        days;
+
+      document.getElementById("hours").textContent =
+        hours;
+
+      document.getElementById("minutes").textContent =
+        minutes;
+
+      document.getElementById("seconds").textContent =
+        seconds;
+    }
+
+    function showError(message) {
+
+      const error =
+        document.getElementById("error");
+
+      error.textContent = message;
+      error.style.display = "block";
+    }
+
+    function resetCountdown() {
+
+      clearInterval(countdownTimer);
+
+      countdownTimer = null;
+
+      document.getElementById("targetDate").value = "";
+
+      document.getElementById("error").style.display = "none";
+
+      document.getElementById("result").style.display = "none";
+
+      document.getElementById("finished").textContent = "";
+
+      document.getElementById("days").textContent = "0";
+      document.getElementById("hours").textContent = "0";
+      document.getElementById("minutes").textContent = "0";
+      document.getElementById("seconds").textContent = "0";
+    }
+
+  </script>
+
+</body>
+</html>
