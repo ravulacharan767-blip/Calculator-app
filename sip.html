@@ -155,6 +155,21 @@
       margin-top: 20px;
     }
 
+    /* Back button */
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #2563eb;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+
     footer {
       text-align: center;
       padding: 25px;
@@ -185,7 +200,6 @@
 
   <div class="card">
 
-    <!-- Monthly Investment -->
     <div class="input-group">
       <label for="monthly">Monthly Investment (₹)</label>
 
@@ -200,7 +214,6 @@
       <div class="error" id="monthlyError"></div>
     </div>
 
-    <!-- Expected Return -->
     <div class="input-group">
       <label for="rate">Expected Annual Return (%)</label>
 
@@ -216,7 +229,6 @@
       <div class="error" id="rateError"></div>
     </div>
 
-    <!-- Investment Period -->
     <div class="input-group">
       <label for="years">Investment Period (Years)</label>
 
@@ -240,7 +252,6 @@
       Reset
     </button>
 
-    <!-- Results -->
     <div class="results" id="results">
 
       <div class="result-box">
@@ -265,6 +276,11 @@
       Actual market returns may be different.
     </div>
 
+    <!-- Back Button -->
+    <a href="index.html" class="back">
+      ← Back to SmartCalc
+    </a>
+
   </div>
 
 </div>
@@ -275,190 +291,136 @@
 
 <script>
 
-  // Format number as Indian Rupees
-  function formatMoney(number) {
-    return "₹" + Math.round(number).toLocaleString("en-IN");
-  }
+function formatMoney(number) {
+  return "₹" + Math.round(number).toLocaleString("en-IN");
+}
 
+document.getElementById("monthly").addEventListener("input", function () {
+  this.classList.remove("invalid");
+  document.getElementById("monthlyError").textContent = "";
+});
 
-  // Clear error when user starts typing
-  document.getElementById("monthly").addEventListener("input", function () {
-    this.classList.remove("invalid");
-    document.getElementById("monthlyError").textContent = "";
+document.getElementById("rate").addEventListener("input", function () {
+  this.classList.remove("invalid");
+  document.getElementById("rateError").textContent = "";
+});
+
+document.getElementById("years").addEventListener("input", function () {
+  this.classList.remove("invalid");
+  document.getElementById("yearsError").textContent = "";
+});
+
+function showError(id, message) {
+  document.getElementById(id).classList.add("invalid");
+  document.getElementById(id + "Error").textContent = message;
+}
+
+function calculateSIP() {
+
+  const monthly = parseFloat(
+    document.getElementById("monthly").value
+  );
+
+  const annualRate = parseFloat(
+    document.getElementById("rate").value
+  );
+
+  const years = parseFloat(
+    document.getElementById("years").value
+  );
+
+  document.querySelectorAll(".error").forEach(function (element) {
+    element.textContent = "";
   });
 
-  document.getElementById("rate").addEventListener("input", function () {
-    this.classList.remove("invalid");
-    document.getElementById("rateError").textContent = "";
+  document.querySelectorAll("input").forEach(function (input) {
+    input.classList.remove("invalid");
   });
 
-  document.getElementById("years").addEventListener("input", function () {
-    this.classList.remove("invalid");
-    document.getElementById("yearsError").textContent = "";
-  });
+  let valid = true;
 
-
-  // Show error
-  function showError(id, message) {
-    document.getElementById(id).classList.add("invalid");
-    document.getElementById(id + "Error").textContent = message;
+  if (isNaN(monthly) || monthly <= 0) {
+    showError(
+      "monthly",
+      "Please enter a monthly investment greater than ₹0."
+    );
+    valid = false;
   }
 
-
-  // SIP Calculation
-  function calculateSIP() {
-
-    const monthly = parseFloat(
-      document.getElementById("monthly").value
+  if (isNaN(annualRate) || annualRate < 0 || annualRate > 100) {
+    showError(
+      "rate",
+      "Please enter a return between 0% and 100%."
     );
-
-    const annualRate = parseFloat(
-      document.getElementById("rate").value
-    );
-
-    const years = parseFloat(
-      document.getElementById("years").value
-    );
-
-
-    // Clear previous errors
-    document.querySelectorAll(".error").forEach(function (element) {
-      element.textContent = "";
-    });
-
-    document.querySelectorAll("input").forEach(function (input) {
-      input.classList.remove("invalid");
-    });
-
-
-    let valid = true;
-
-
-    // Monthly investment validation
-    if (
-      isNaN(monthly) ||
-      monthly <= 0
-    ) {
-      showError(
-        "monthly",
-        "Please enter a monthly investment greater than ₹0."
-      );
-
-      valid = false;
-    }
-
-
-    // Annual return validation
-    if (
-      isNaN(annualRate) ||
-      annualRate < 0 ||
-      annualRate > 100
-    ) {
-      showError(
-        "rate",
-        "Please enter a return between 0% and 100%."
-      );
-
-      valid = false;
-    }
-
-
-    // Years validation
-    if (
-      isNaN(years) ||
-      years <= 0 ||
-      years > 100
-    ) {
-      showError(
-        "years",
-        "Please enter a period between 1 and 100 years."
-      );
-
-      valid = false;
-    }
-
-
-    // Stop if validation fails
-    if (!valid) {
-      document.getElementById("results").style.display = "none";
-      return;
-    }
-
-
-    // Number of months
-    const months = years * 12;
-
-
-    // Monthly interest rate
-    const monthlyRate = annualRate / 12 / 100;
-
-
-    let futureValue;
-
-
-    // If return is 0%
-    if (monthlyRate === 0) {
-
-      futureValue = monthly * months;
-
-    } else {
-
-      futureValue =
-        monthly *
-        (
-          (Math.pow(1 + monthlyRate, months) - 1)
-          / monthlyRate
-        ) *
-        (1 + monthlyRate);
-
-    }
-
-
-    // Total amount invested
-    const totalInvestment = monthly * months;
-
-
-    // Profit / estimated returns
-    const estimatedReturns =
-      futureValue - totalInvestment;
-
-
-    // Display results
-    document.getElementById("totalInvestment").textContent =
-      formatMoney(totalInvestment);
-
-    document.getElementById("estimatedReturns").textContent =
-      formatMoney(estimatedReturns);
-
-    document.getElementById("futureValue").textContent =
-      formatMoney(futureValue);
-
-
-    // Show results
-    document.getElementById("results").style.display = "block";
+    valid = false;
   }
 
+  if (isNaN(years) || years <= 0 || years > 100) {
+    showError(
+      "years",
+      "Please enter a period between 1 and 100 years."
+    );
+    valid = false;
+  }
 
-  // Reset calculator
-  function resetCalculator() {
-
-    document.getElementById("monthly").value = "";
-    document.getElementById("rate").value = "";
-    document.getElementById("years").value = "";
-
-
-    document.querySelectorAll("input").forEach(function (input) {
-      input.classList.remove("invalid");
-    });
-
-
-    document.querySelectorAll(".error").forEach(function (error) {
-      error.textContent = "";
-    });
-
-
+  if (!valid) {
     document.getElementById("results").style.display = "none";
+    return;
   }
+
+  const months = years * 12;
+  const monthlyRate = annualRate / 12 / 100;
+
+  let futureValue;
+
+  if (monthlyRate === 0) {
+
+    futureValue = monthly * months;
+
+  } else {
+
+    futureValue =
+      monthly *
+      (
+        (Math.pow(1 + monthlyRate, months) - 1)
+        / monthlyRate
+      ) *
+      (1 + monthlyRate);
+  }
+
+  const totalInvestment = monthly * months;
+
+  const estimatedReturns =
+    futureValue - totalInvestment;
+
+  document.getElementById("totalInvestment").textContent =
+    formatMoney(totalInvestment);
+
+  document.getElementById("estimatedReturns").textContent =
+    formatMoney(estimatedReturns);
+
+  document.getElementById("futureValue").textContent =
+    formatMoney(futureValue);
+
+  document.getElementById("results").style.display = "block";
+}
+
+function resetCalculator() {
+
+  document.getElementById("monthly").value = "";
+  document.getElementById("rate").value = "";
+  document.getElementById("years").value = "";
+
+  document.querySelectorAll("input").forEach(function (input) {
+    input.classList.remove("invalid");
+  });
+
+  document.querySelectorAll(".error").forEach(function (error) {
+    error.textContent = "";
+  });
+
+  document.getElementById("results").style.display = "none";
+}
 
 </script>
 
