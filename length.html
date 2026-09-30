@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Length Converter - SmartCalc</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #182033;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .calculator-box,
+        .info-section {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #111827;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .convert-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        .info-section h3 {
+            margin-top: 25px;
+            font-size: 21px;
+        }
+
+        .info-section p {
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .info-section li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .conversion-table {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .conversion-table div {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 13px;
+            background: #f5f7fb;
+            border-radius: 10px;
+        }
+
+        .conversion-table span {
+            color: #4b5563;
+        }
+
+        footer {
+            margin-top: 50px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        footer h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        footer p {
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 27px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .calculator-box,
+            .info-section {
+                padding: 20px;
+            }
+
+            .conversion-table div {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🧮 SmartCalc</h1>
+
+    <p>Free online calculators for everyone.</p>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- LENGTH CALCULATOR -->
+
+    <div class="calculator-box">
+
+        <a href="index.html" class="back-btn">
+            ← Back
+        </a>
+
+        <h2>📏 Length Converter</h2>
+
+
+        <label for="value">
+            Enter Value
+        </label>
+
+        <input
+            type="number"
+            id="value"
+            placeholder="Enter value"
+            step="any"
+        >
+
+
+        <label for="fromUnit">
+            From
+        </label>
+
+        <select id="fromUnit">
+
+            <option value="">
+                Select unit
+            </option>
+
+            <option value="meter">
+                Meter
+            </option>
+
+            <option value="kilometer">
+                Kilometer
+            </option>
+
+            <option value="centimeter">
+                Centimeter
+            </option>
+
+            <option value="millimeter">
+                Millimeter
+            </option>
+
+            <option value="mile">
+                Mile
+            </option>
+
+            <option value="yard">
+                Yard
+            </option>
+
+            <option value="foot">
+                Foot
+            </option>
+
+            <option value="inch">
+                Inch
+            </option>
+
+        </select>
+
+
+        <label for="toUnit">
+            To
+        </label>
+
+        <select id="toUnit">
+
+            <option value="">
+                Select unit
+            </option>
+
+            <option value="meter">
+                Meter
+            </option>
+
+            <option value="kilometer">
+                Kilometer
+            </option>
+
+            <option value="centimeter">
+                Centimeter
+            </option>
+
+            <option value="millimeter">
+                Millimeter
+            </option>
+
+            <option value="mile">
+                Mile
+            </option>
+
+            <option value="yard">
+                Yard
+            </option>
+
+            <option value="foot">
+                Foot
+            </option>
+
+            <option value="inch">
+                Inch
+            </option>
+
+        </select>
+
+
+        <button
+            class="button convert-btn"
+            onclick="convertLength()"
+        >
+            Convert
+        </button>
+
+
+        <button
+            class="button reset-btn"
+            onclick="resetCalculator()"
+        >
+            Reset
+        </button>
+
+
+        <div id="result" class="result"></div>
+
+    </div>
+
+
+
+    <!-- INFORMATION -->
+
+    <section class="info-section">
+
+        <h2>
+            📏 About Length Converter
+        </h2>
+
+        <p>
+            A Length Converter helps you convert measurements
+            from one length unit to another quickly and accurately.
+            It can be useful for school, engineering, construction,
+            travel, shopping, and everyday measurements.
+        </p>
+
+
+        <h3>
+            What is Length?
+        </h3>
+
+        <p>
+            Length is a measurement of the distance between two points.
+            Different measurement systems use different units to measure
+            length.
+        </p>
+
+
+        <h3>
+            Common Length Units
+        </h3>
+
+        <ul>
+
+            <li>
+                <strong>Meter (m)</strong> – Standard SI unit of length.
+            </li>
+
+            <li>
+                <strong>Kilometer (km)</strong> – Used for long distances.
+            </li>
+
+            <li>
+                <strong>Centimeter (cm)</strong> – Used for smaller measurements.
+            </li>
+
+            <li>
+                <strong>Millimeter (mm)</strong> – Used for very small measurements.
+            </li>
+
+            <li>
+                <strong>Mile (mi)</strong> – Used for longer distances.
+            </li>
+
+            <li>
+                <strong>Yard (yd)</strong> – Used in some sports and measurements.
+            </li>
+
+            <li>
+                <strong>Foot (ft)</strong> – Commonly used for height.
+            </li>
+
+            <li>
+                <strong>Inch (in)</strong> – Used for small measurements.
+            </li>
+
+        </ul>
+
+
+        <h3>
+            Common Conversions
+        </h3>
+
+
+        <div class="conversion-table">
+
+            <div>
+                <strong>1 kilometer</strong>
+                <span>= 1,000 meters</span>
+            </div>
+
+            <div>
+                <strong>1 meter</strong>
+                <span>= 100 centimeters</span>
+            </div>
+
+            <div>
+                <strong>1 meter</strong>
+                <span>= 1,000 millimeters</span>
+            </div>
+
+            <div>
+                <strong>1 foot</strong>
+                <span>= 12 inches</span>
+            </div>
+
+            <div>
+                <strong>1 yard</strong>
+                <span>= 3 feet</span>
+            </div>
+
+            <div>
+                <strong>1 mile</strong>
+                <span>= 1,609.344 meters</span>
+            </div>
+
+        </div>
+
+
+        <h3>
+            How to Use the Length Converter
+        </h3>
+
+        <ol>
+
+            <li>
+                Enter the value you want to convert.
+            </li>
+
+            <li>
+                Select the unit you are converting from.
+            </li>
+
+            <li>
+                Select the unit you want to convert to.
+            </li>
+
+            <li>
+                Click the <strong>Convert</strong> button.
+            </li>
+
+            <li>
+                Your converted value will appear instantly.
+            </li>
+
+        </ol>
+
+
+        <h3>
+            Example
+        </h3>
+
+        <p>
+            To convert 5 kilometers into meters, enter
+            <strong>5</strong>, select <strong>Kilometer</strong>
+            as From, select <strong>Meter</strong> as To, and click
+            Convert.
+        </p>
+
+    </section>
+
+</main>
+
+
+
+<footer>
+
+    <h2>
+        🧮 SmartCalc
+    </h2>
+
+    <p>
+        Free online calculators for everyone.
+    </p>
+
+    <p>
+        © 2026 SmartCalc
+    </p>
+
+</footer>
+
+
+
+<script>
+
+function convertLength() {
+
+    const valueInput =
+        document.getElementById("value");
+
+    const fromUnit =
+        document.getElementById("fromUnit").value;
+
+    const toUnit =
+        document.getElementById("toUnit").value;
+
+    const result =
+        document.getElementById("result");
+
+    const value =
+        parseFloat(valueInput.value);
+
+
+    if (valueInput.value.trim() === "") {
+
+        showError("⚠️ Please enter a value.");
+
+        return;
+    }
+
+
+    if (isNaN(value)) {
+
+        showError("⚠️ Please enter a valid number.");
+
+        return;
+    }
+
+
+    if (fromUnit === "") {
+
+        showError("⚠️ Please select the From unit.");
+
+        return;
+    }
+
+
+    if (toUnit === "") {
+
+        showError("⚠️ Please select the To unit.");
+
+        return;
+    }
+
+
+    const units = {
+
+        meter: 1,
+
+        kilometer: 1000,
+
+        centimeter: 0.01,
+
+        millimeter: 0.001,
+
+        mile: 1609.344,
+
+        yard: 0.9144,
+
+        foot: 0.3048,
+
+        inch: 0.0254
+
+    };
+
+
+    const meters =
+        value * units[fromUnit];
+
+
+    const converted =
+        meters / units[toUnit];
+
+
+    result.style.display = "block";
+
+    result.className = "result";
+
+    result.textContent =
+        formatNumber(value) +
+        " " +
+        getUnitName(fromUnit) +
+        " = " +
+        formatNumber(converted) +
+        " " +
+        getUnitName(toUnit);
+
+}
+
+
+function showError(message) {
+
+    const result =
+        document.getElementById("result");
+
+    result.style.display = "block";
+
+    result.className = "result error";
+
+    result.textContent = message;
+
+}
+
+
+function formatNumber(number) {
+
+    return parseFloat(
+        number.toFixed(10)
+    ).toLocaleString("en-IN");
+
+}
+
+
+function getUnitName(unit) {
+
+    const names = {
+
+        meter: "meter",
+
+        kilometer: "kilometer",
+
+        centimeter: "centimeter",
+
+        millimeter: "millimeter",
+
+        mile: "mile",
+
+        yard: "yard",
+
+        foot: "foot",
+
+        inch: "inch"
+
+    };
+
+    return names[unit];
+
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("value").value = "";
+
+    document.getElementById("fromUnit").value = "";
+
+    document.getElementById("toUnit").value = "";
+
+    const result =
+        document.getElementById("result");
+
+    result.style.display = "none";
+
+    result.textContent = "";
+
+}
+
+</script>
+
+</body>
+
+</html>
