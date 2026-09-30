@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Speed Converter - SmartCalc</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #182033;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .calculator-box,
+        .info-section {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #111827;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: #1f2937;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .convert-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .convert-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #182033;
+        }
+
+        .reset-btn:hover {
+            background: #d1d5db;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            display: none;
+            word-wrap: break-word;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .info-section h2 {
+            margin-bottom: 15px;
+        }
+
+        .info-section h3 {
+            margin-top: 20px;
+        }
+
+        .info-section p,
+        .info-section li {
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 15px auto;
+                padding: 15px;
+            }
+
+            .calculator-box,
+            .info-section {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            .result {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚗 Speed Converter</h1>
+    <p>Convert speed units quickly and easily.</p>
+</header>
+
+<div class="container">
+
+    <div class="calculator-box">
+
+        <a href="index.html" class="back-btn">← Back</a>
+
+        <h2>🚗 Speed Converter</h2>
+
+        <label for="value">Enter Value</label>
+        <input
+            type="number"
+            id="value"
+            placeholder="Enter speed value"
+            step="any"
+        >
+
+        <label for="fromUnit">From</label>
+        <select id="fromUnit">
+            <option value="kmh">Kilometers per hour (km/h)</option>
+            <option value="mph">Miles per hour (mph)</option>
+            <option value="ms">Meters per second (m/s)</option>
+            <option value="knots">Knots</option>
+            <option value="fts">Feet per second (ft/s)</option>
+        </select>
+
+        <label for="toUnit">To</label>
+        <select id="toUnit">
+            <option value="mph">Miles per hour (mph)</option>
+            <option value="kmh">Kilometers per hour (km/h)</option>
+            <option value="ms">Meters per second (m/s)</option>
+            <option value="knots">Knots</option>
+            <option value="fts">Feet per second (ft/s)</option>
+        </select>
+
+        <button class="convert-btn" onclick="convertSpeed()">
+            Convert
+        </button>
+
+        <button class="reset-btn" onclick="resetCalculator()">
+            Reset
+        </button>
+
+        <div id="error" class="error"></div>
+
+        <div id="result" class="result"></div>
+
+    </div>
+
+    <div class="info-section">
+
+        <h2>📚 About Speed Conversion</h2>
+
+        <p>
+            Speed tells us how quickly an object moves from one place to another.
+            Different countries and industries use different speed units.
+        </p>
+
+        <h3>🚗 Common Speed Units</h3>
+
+        <ul>
+            <li><strong>Kilometers per hour (km/h):</strong> Commonly used for vehicle speed in many countries.</li>
+            <li><strong>Miles per hour (mph):</strong> Commonly used in the United States and United Kingdom.</li>
+            <li><strong>Meters per second (m/s):</strong> Commonly used in science and physics.</li>
+            <li><strong>Knots:</strong> Commonly used in aviation and marine navigation.</li>
+            <li><strong>Feet per second (ft/s):</strong> Used in some engineering and scientific applications.</li>
+        </ul>
+
+        <h3>🔄 Common Conversions</h3>
+
+        <ul>
+            <li>1 km/h = 0.621371 mph</li>
+            <li>1 mph = 1.609344 km/h</li>
+            <li>1 m/s = 3.6 km/h</li>
+            <li>1 knot = 1.852 km/h</li>
+            <li>1 ft/s = 1.09728 km/h</li>
+        </ul>
+
+        <h3>📝 How to Use</h3>
+
+        <ol>
+            <li>Enter a speed value.</li>
+            <li>Select the unit you are converting from.</li>
+            <li>Select the unit you want to convert to.</li>
+            <li>Tap <strong>Convert</strong>.</li>
+        </ol>
+
+        <h3>💡 Example</h3>
+
+        <p>
+            If you convert <strong>100 km/h</strong> to mph, the result is
+            approximately <strong>62.1371 mph</strong>.
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+    const factors = {
+        kmh: 1,
+        mph: 1.609344,
+        ms: 3.6,
+        knots: 1.852,
+        fts: 1.09728
+    };
+
+    const unitNames = {
+        kmh: "km/h",
+        mph: "mph",
+        ms: "m/s",
+        knots: "knots",
+        fts: "ft/s"
+    };
+
+    function convertSpeed() {
+
+        const valueInput = document.getElementById("value");
+        const fromUnit = document.getElementById("fromUnit").value;
+        const toUnit = document.getElementById("toUnit").value;
+        const result = document.getElementById("result");
+        const error = document.getElementById("error");
+
+        const value = parseFloat(valueInput.value);
+
+        error.textContent = "";
+        result.style.display = "none";
+
+        if (valueInput.value.trim() === "") {
+            error.textContent = "Please enter a speed value.";
+            return;
+        }
+
+        if (!Number.isFinite(value)) {
+            error.textContent = "Please enter a valid number.";
+            return;
+        }
+
+        if (value < 0) {
+            error.textContent = "Speed cannot be negative.";
+            return;
+        }
+
+        const valueInKmh = value * factors[fromUnit];
+        const convertedValue = valueInKmh / factors[toUnit];
+
+        let formattedValue;
+
+        if (convertedValue === 0) {
+            formattedValue = "0";
+        } else if (
+            Math.abs(convertedValue) >= 0.000001 &&
+            Math.abs(convertedValue) < 1000000
+        ) {
+            formattedValue = convertedValue
+                .toLocaleString("en-US", {
+                    maximumFractionDigits: 6
+                });
+        } else {
+            formattedValue = convertedValue.toExponential(6);
+        }
+
+        result.textContent =
+            `${value.toLocaleString("en-US")} ${unitNames[fromUnit]} = ${formattedValue} ${unitNames[toUnit]}`;
+
+        result.style.display = "block";
+    }
+
+    function resetCalculator() {
+
+        document.getElementById("value").value = "";
+        document.getElementById("fromUnit").value = "kmh";
+        document.getElementById("toUnit").value = "mph";
+
+        document.getElementById("error").textContent = "";
+
+        const result = document.getElementById("result");
+        result.textContent = "";
+        result.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
