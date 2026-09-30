@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Temperature Converter - SmartCalc</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #182033;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .calculator-box,
+        .info-section {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #111827;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .convert-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        .info-section h3 {
+            margin-top: 25px;
+            font-size: 21px;
+        }
+
+        .info-section p {
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .info-section li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .conversion-table {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .conversion-table div {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 13px;
+            background: #f5f7fb;
+            border-radius: 10px;
+        }
+
+        .conversion-table span {
+            color: #4b5563;
+        }
+
+        footer {
+            margin-top: 50px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        footer h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        footer p {
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 27px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .calculator-box,
+            .info-section {
+                padding: 20px;
+            }
+
+            .conversion-table div {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<header>
+
+    <h1>🧮 SmartCalc</h1>
+
+    <p>Free online calculators for everyone.</p>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- TEMPERATURE CALCULATOR -->
+
+    <div class="calculator-box">
+
+        <a href="index.html" class="back-btn">
+            ← Back
+        </a>
+
+        <h2>🌡️ Temperature Converter</h2>
+
+
+        <label for="value">
+            Enter Value
+        </label>
+
+        <input
+            type="number"
+            id="value"
+            placeholder="Enter value"
+            step="any"
+        >
+
+
+        <label for="fromUnit">
+            From
+        </label>
+
+        <select id="fromUnit">
+
+            <option value="">
+                Select unit
+            </option>
+
+            <option value="celsius">
+                Celsius (°C)
+            </option>
+
+            <option value="fahrenheit">
+                Fahrenheit (°F)
+            </option>
+
+            <option value="kelvin">
+                Kelvin (K)
+            </option>
+
+        </select>
+
+
+        <label for="toUnit">
+            To
+        </label>
+
+        <select id="toUnit">
+
+            <option value="">
+                Select unit
+            </option>
+
+            <option value="celsius">
+                Celsius (°C)
+            </option>
+
+            <option value="fahrenheit">
+                Fahrenheit (°F)
+            </option>
+
+            <option value="kelvin">
+                Kelvin (K)
+            </option>
+
+        </select>
+
+
+        <button
+            class="button convert-btn"
+            onclick="convertTemperature()"
+        >
+            Convert
+        </button>
+
+
+        <button
+            class="button reset-btn"
+            onclick="resetCalculator()"
+        >
+            Reset
+        </button>
+
+
+        <div id="result" class="result"></div>
+
+    </div>
+
+
+
+    <!-- INFORMATION -->
+
+    <section class="info-section">
+
+        <h2>
+            🌡️ About Temperature Converter
+        </h2>
+
+        <p>
+            A Temperature Converter helps you convert temperatures
+            between Celsius, Fahrenheit, and Kelvin. It is useful for
+            school, science, weather, cooking, engineering, and everyday
+            measurements.
+        </p>
+
+
+        <h3>
+            What is Temperature?
+        </h3>
+
+        <p>
+            Temperature describes how hot or cold something is.
+            Different temperature scales are used around the world
+            and in different scientific applications.
+        </p>
+
+
+        <h3>
+            Common Temperature Units
+        </h3>
+
+        <ul>
+
+            <li>
+                <strong>Celsius (°C)</strong> – Commonly used in most countries for everyday temperature measurements.
+            </li>
+
+            <li>
+                <strong>Fahrenheit (°F)</strong> – Commonly used for everyday temperatures in the United States.
+            </li>
+
+            <li>
+                <strong>Kelvin (K)</strong> – An SI temperature scale commonly used in science.
+            </li>
+
+        </ul>
+
+
+        <h3>
+            Common Conversions
+        </h3>
+
+
+        <div class="conversion-table">
+
+            <div>
+                <strong>0°C</strong>
+                <span>= 32°F</span>
+            </div>
+
+            <div>
+                <strong>100°C</strong>
+                <span>= 212°F</span>
+            </div>
+
+            <div>
+                <strong>0°C</strong>
+                <span>= 273.15 K</span>
+            </div>
+
+            <div>
+                <strong>100°C</strong>
+                <span>= 373.15 K</span>
+            </div>
+
+            <div>
+                <strong>32°F</strong>
+                <span>= 0°C</span>
+            </div>
+
+            <div>
+                <strong>212°F</strong>
+                <span>= 100°C</span>
+            </div>
+
+        </div>
+
+
+        <h3>
+            How to Use the Temperature Converter
+        </h3>
+
+        <ol>
+
+            <li>
+                Enter the temperature value.
+            </li>
+
+            <li>
+                Select the temperature unit you are converting from.
+            </li>
+
+            <li>
+                Select the temperature unit you want to convert to.
+            </li>
+
+            <li>
+                Click the <strong>Convert</strong> button.
+            </li>
+
+            <li>
+                Your converted temperature will appear instantly.
+            </li>
+
+        </ol>
+
+
+        <h3>
+            Example
+        </h3>
+
+        <p>
+            To convert 100°C into Fahrenheit, enter
+            <strong>100</strong>, select <strong>Celsius</strong>
+            as From, select <strong>Fahrenheit</strong> as To,
+            and click Convert.
+        </p>
+
+    </section>
+
+</main>
+
+
+
+<footer>
+
+    <h2>
+        🧮 SmartCalc
+    </h2>
+
+    <p>
+        Free online calculators for everyone.
+    </p>
+
+    <p>
+        © 2026 SmartCalc
+    </p>
+
+</footer>
+
+
+
+<script>
+
+function convertTemperature() {
+
+    const valueInput =
+        document.getElementById("value");
+
+    const fromUnit =
+        document.getElementById("fromUnit").value;
+
+    const toUnit =
+        document.getElementById("toUnit").value;
+
+    const result =
+        document.getElementById("result");
+
+    const value =
+        parseFloat(valueInput.value);
+
+
+    if (valueInput.value.trim() === "") {
+
+        showError("⚠️ Please enter a temperature.");
+
+        return;
+    }
+
+
+    if (isNaN(value)) {
+
+        showError("⚠️ Please enter a valid number.");
+
+        return;
+    }
+
+
+    if (fromUnit === "") {
+
+        showError("⚠️ Please select the From unit.");
+
+        return;
+    }
+
+
+    if (toUnit === "") {
+
+        showError("⚠️ Please select the To unit.");
+
+        return;
+    }
+
+
+    // Kelvin cannot be below absolute zero
+
+    if (fromUnit === "kelvin" && value < 0) {
+
+        showError("⚠️ Kelvin cannot be below 0 K.");
+
+        return;
+    }
+
+
+    // Celsius cannot be below absolute zero
+
+    if (fromUnit === "celsius" && value < -273.15) {
+
+        showError("⚠️ Celsius cannot be below -273.15°C.");
+
+        return;
+    }
+
+
+    // Fahrenheit cannot be below absolute zero
+
+    if (fromUnit === "fahrenheit" && value < -459.67) {
+
+        showError("⚠️ Fahrenheit cannot be below -459.67°F.");
+
+        return;
+    }
+
+
+    let celsius;
+
+
+    // Convert From unit to Celsius
+
+    if (fromUnit === "celsius") {
+
+        celsius = value;
+
+    } else if (fromUnit === "fahrenheit") {
+
+        celsius = (value - 32) * 5 / 9;
+
+    } else if (fromUnit === "kelvin") {
+
+        celsius = value - 273.15;
+
+    }
+
+
+    let converted;
+
+
+    // Convert Celsius to To unit
+
+    if (toUnit === "celsius") {
+
+        converted = celsius;
+
+    } else if (toUnit === "fahrenheit") {
+
+        converted = (celsius * 9 / 5) + 32;
+
+    } else if (toUnit === "kelvin") {
+
+        converted = celsius + 273.15;
+
+    }
+
+
+    result.style.display = "block";
+
+    result.className = "result";
+
+    result.textContent =
+        formatNumber(value) +
+        " " +
+        getUnitName(fromUnit) +
+        " = " +
+        formatNumber(converted) +
+        " " +
+        getUnitName(toUnit);
+
+}
+
+
+function showError(message) {
+
+    const result =
+        document.getElementById("result");
+
+    result.style.display = "block";
+
+    result.className = "result error";
+
+    result.textContent = message;
+
+}
+
+
+function formatNumber(number) {
+
+    return parseFloat(
+        number.toFixed(10)
+    ).toLocaleString("en-IN");
+
+}
+
+
+function getUnitName(unit) {
+
+    const names = {
+
+        celsius: "°C",
+
+        fahrenheit: "°F",
+
+        kelvin: "K"
+
+    };
+
+    return names[unit];
+
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("value").value = "";
+
+    document.getElementById("fromUnit").value = "";
+
+    document.getElementById("toUnit").value = "";
+
+    const result =
+        document.getElementById("result");
+
+    result.style.display = "none";
+
+    result.textContent = "";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
