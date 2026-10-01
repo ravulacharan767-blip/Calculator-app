@@ -6,528 +6,1391 @@
 
 <title>SmartCalc - Free Online Calculators</title>
 
-<meta name="description" content="Free online calculators for finance, health, math, dates and unit conversions.">
+<meta name="description"
+content="Free online calculators for finance, health, math, dates and unit conversions.">
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+/* =========================
+   GLOBAL
+========================= */
+
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#667085;
+    --primary:#2563eb;
+    --secondary:#4f46e5;
+    --border:#e5e7eb;
+    --shadow:0 8px 25px rgba(15,23,42,.08);
+    --hover-shadow:0 16px 35px rgba(37,99,235,.18);
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-    color: #172033;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-/* HEADER */
-header {
-    background: linear-gradient(135deg, #2563eb, #4f46e5);
-    color: white;
-    padding: 25px 16px 35px;
-    text-align: center;
+html{
+    scroll-behavior:smooth;
 }
 
-.logo {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 8px;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 10% 0%,rgba(79,70,229,.07),transparent 28%),
+        radial-gradient(circle at 90% 10%,rgba(37,99,235,.06),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
 }
 
-.tagline {
-    font-size: 15px;
-    opacity: 0.9;
-    margin-bottom: 22px;
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5,
+            #6366f1
+        );
+    color:white;
+    padding:30px 16px 34px;
+    text-align:center;
+    box-shadow:0 8px 28px rgba(37,99,235,.20);
 }
 
-.search-box {
-    max-width: 600px;
-    margin: auto;
-    display: flex;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
+header::before,
+header::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.10);
+    pointer-events:none;
+    animation:floatBlob 7s ease-in-out infinite;
 }
 
-.search-box input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 15px;
-    font-size: 16px;
+header::before{
+    width:180px;
+    height:180px;
+    left:-80px;
+    top:-90px;
 }
 
-.search-box button {
-    border: none;
-    background: #111827;
-    color: white;
-    padding: 0 20px;
-    font-size: 18px;
+header::after{
+    width:220px;
+    height:220px;
+    right:-110px;
+    bottom:-150px;
+    animation-delay:-3s;
 }
 
-/* MAIN */
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 25px 15px;
+.logo{
+    position:relative;
+    z-index:1;
+    font-size:clamp(28px,4vw,38px);
+    font-weight:800;
+    margin-bottom:7px;
+    animation:fadeDown .7s ease;
 }
 
-.section-title {
-    font-size: 24px;
-    margin: 15px 0;
+.tagline{
+    position:relative;
+    z-index:1;
+    font-size:clamp(14px,2vw,18px);
+    opacity:.93;
+    margin-bottom:20px;
+    animation:fadeUp .7s ease;
 }
 
-/* POPULAR */
-.popular {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-bottom: 35px;
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box{
+    position:relative;
+    z-index:1;
+    width:min(680px,100%);
+    height:58px;
+    margin:auto;
+    display:flex;
+    background:white;
+    border:2px solid rgba(255,255,255,.45);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(15,23,42,.18);
+    animation:fadeUp .8s ease;
+    transition:.25s ease;
 }
 
-.popular-card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    text-decoration: none;
-    color: #172033;
-    box-shadow: 0 5px 18px rgba(0,0,0,0.07);
-    transition: 0.2s;
+.search-box:focus-within{
+    transform:translateY(-2px);
+    box-shadow:0 16px 40px rgba(15,23,42,.25);
 }
 
-.popular-card:hover {
-    transform: translateY(-4px);
+.search-box input{
+    flex:1;
+    min-width:0;
+    border:none;
+    outline:none;
+    padding:0 18px;
+    font-size:17px;
+    color:var(--text);
+    background:white;
 }
 
-.icon {
-    font-size: 30px;
-    margin-bottom: 10px;
+.search-box input::placeholder{
+    color:#98a2b3;
 }
 
-.popular-card h3 {
-    margin-bottom: 5px;
+.search-box button{
+    width:68px;
+    border:none;
+    background:#111827;
+    color:white;
+    font-size:21px;
+    cursor:pointer;
+    transition:.2s ease;
 }
 
-.popular-card p {
-    font-size: 13px;
-    color: #667085;
+.search-box button:hover{
+    background:#000;
 }
 
-/* CATEGORIES */
-.category {
-    margin-bottom: 35px;
+.search-box button:active{
+    transform:scale(.95);
 }
 
-.category h2 {
-    margin-bottom: 15px;
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+    width:min(1120px,100%);
+    margin:auto;
+    padding:30px 18px 42px;
 }
 
-.calculator-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
+.section-title{
+    font-size:clamp(22px,3vw,28px);
+    margin:4px 0 18px;
 }
 
-.calc-card {
-    background: white;
-    padding: 18px;
-    border-radius: 14px;
-    border: 1px solid #e5e7eb;
-    text-decoration: none;
-    color: #172033;
-    transition: 0.2s;
+.category{
+    margin-bottom:40px;
 }
 
-.calc-card:hover {
-    border-color: #2563eb;
-    transform: translateY(-3px);
+.category h2{
+    font-size:clamp(20px,2.6vw,25px);
+    margin-bottom:16px;
 }
 
-.calc-card span {
-    font-size: 26px;
-    display: block;
-    margin-bottom: 8px;
+
+/* =========================
+   POPULAR
+========================= */
+
+.popular{
+    display:grid;
+
+    /* LAPTOP = SIDE BY SIDE */
+    grid-template-columns:repeat(3,minmax(0,1fr));
+
+    gap:16px;
+    margin-bottom:42px;
 }
 
-.calc-card h3 {
-    font-size: 17px;
-    margin-bottom: 5px;
+
+/* =========================
+   CARDS
+========================= */
+
+.popular-card,
+.calc-card{
+    position:relative;
+    display:block;
+    background:rgba(255,255,255,.97);
+    border:1px solid var(--border);
+    border-radius:18px;
+    text-decoration:none;
+    color:var(--text);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+
+    transform:translateY(0);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+
+    animation:cardIn .55s ease both;
 }
 
-.calc-card p {
-    color: #667085;
-    font-size: 13px;
+.popular-card:hover,
+.calc-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--hover-shadow);
+    border-color:rgba(37,99,235,.35);
 }
 
-/* FOOTER */
-footer {
-    background: #111827;
-    color: white;
-    text-align: center;
-    padding: 30px 15px;
-    margin-top: 20px;
+.popular-card::after,
+.calc-card::after{
+    content:"";
+    position:absolute;
+    width:110px;
+    height:110px;
+    right:-35px;
+    bottom:-55px;
+    border-radius:50%;
+    background:rgba(37,99,235,.045);
+    transition:.3s ease;
 }
 
-footer p {
-    color: #cbd5e1;
-    font-size: 14px;
-    margin-top: 8px;
+.popular-card:hover::after,
+.calc-card:hover::after{
+    transform:scale(1.35);
 }
 
-/* MOBILE */
-@media (max-width: 600px) {
 
-    .logo {
-        font-size: 26px;
+/* =========================
+   POPULAR CARD
+========================= */
+
+.popular-card{
+    min-height:166px;
+    padding:20px;
+}
+
+.icon,
+.calc-card span{
+    display:block;
+    position:relative;
+    z-index:1;
+    font-size:31px;
+    line-height:1;
+    margin-bottom:12px;
+}
+
+.popular-card h3,
+.calc-card h3{
+    position:relative;
+    z-index:1;
+    line-height:1.2;
+    margin-bottom:7px;
+}
+
+.popular-card h3{
+    font-size:19px;
+}
+
+.popular-card p,
+.calc-card p{
+    position:relative;
+    z-index:1;
+    color:var(--muted);
+    line-height:1.45;
+    font-size:14px;
+}
+
+
+/* =========================
+   CALCULATOR GRID
+========================= */
+
+.calculator-grid{
+    display:grid;
+
+    /* LAPTOP = 4 SIDE BY SIDE */
+    grid-template-columns:repeat(4,minmax(0,1fr));
+
+    gap:14px;
+}
+
+.calc-card{
+    min-height:142px;
+    padding:18px;
+}
+
+.calc-card h3{
+    font-size:17px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#111827;
+    color:white;
+    text-align:center;
+    padding:30px 15px;
+    margin-top:10px;
+}
+
+footer h2{
+    font-size:22px;
+}
+
+footer p{
+    color:#cbd5e1;
+    font-size:14px;
+    margin-top:8px;
+}
+
+
+/* =========================
+   NO RESULTS
+========================= */
+
+.no-results{
+    display:none;
+    text-align:center;
+    padding:30px 15px;
+    color:var(--muted);
+    font-size:15px;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-15px);
     }
 
-    .section-title {
-        font-size: 21px;
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 
-    .popular {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .calculator-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .calc-card {
-        padding: 15px;
-    }
 }
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes cardIn{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes floatBlob{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(12px,10px);
+    }
+
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:900px){
+
+    .popular{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .calculator-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    header{
+        padding:24px 14px 27px;
+    }
+
+    .search-box{
+        height:54px;
+        border-radius:16px;
+    }
+
+    .search-box input{
+        font-size:16px;
+    }
+
+    .search-box button{
+        width:60px;
+    }
+
+    .container{
+        padding:24px 14px 35px;
+    }
+
+
+    /* ⭐ ALWAYS 2 SIDE BY SIDE */
+
+    .popular{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:12px;
+        margin-bottom:34px;
+    }
+
+
+    /* ⭐ ALWAYS 2 SIDE BY SIDE */
+
+    .calculator-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:12px;
+    }
+
+
+    .popular-card{
+        min-height:150px;
+        padding:16px;
+        border-radius:16px;
+    }
+
+    .calc-card{
+        min-height:132px;
+        padding:15px;
+        border-radius:16px;
+    }
+
+    .icon,
+    .calc-card span{
+        font-size:27px;
+        margin-bottom:10px;
+    }
+
+    .popular-card h3{
+        font-size:17px;
+    }
+
+    .calc-card h3{
+        font-size:16px;
+    }
+
+    .popular-card p,
+    .calc-card p{
+        font-size:13px;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL PHONE
+   STILL SIDE BY SIDE
+========================= */
+
+@media(max-width:380px){
+
+    .popular,
+    .calculator-grid{
+
+        /* DO NOT CHANGE TO 1 COLUMN */
+
+        grid-template-columns:repeat(2,minmax(0,1fr));
+
+    }
+
+    .popular-card{
+        min-height:135px;
+        padding:13px;
+    }
+
+    .calc-card{
+        min-height:125px;
+        padding:13px;
+    }
+
+    .popular-card h3,
+    .calc-card h3{
+        font-size:15px;
+    }
+
+    .popular-card p,
+    .calc-card p{
+        font-size:12px;
+    }
+
+    .icon,
+    .calc-card span{
+        font-size:25px;
+    }
+
+}
+
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none!important;
+        transition:none!important;
+        scroll-behavior:auto!important;
+
+    }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-    <div class="logo">🧮 SmartCalc</div>
+    <div class="logo">
+        🧮 SmartCalc
+    </div>
 
     <div class="tagline">
         Free Online Calculators for Everyday Life
     </div>
 
     <div class="search-box">
+
         <input
             type="text"
             id="search"
             placeholder="Search calculators..."
             onkeyup="searchCalculators()"
         >
-        <button>🔍</button>
+
+        <button type="button">
+            🔍
+        </button>
+
     </div>
 
 </header>
 
 
+<!-- =========================
+     MAIN
+========================= -->
+
 <main class="container">
 
-    <!-- POPULAR -->
 
-    <h2 class="section-title">⭐ Popular Calculators</h2>
+<!-- =========================
+     POPULAR
+========================= -->
 
-    <div class="popular">
-
-        <a class="popular-card" href="emi.html">
-            <div class="icon">🏦</div>
-            <h3>EMI Calculator</h3>
-            <p>Calculate monthly loan payments.</p>
-        </a>
-        
-        <a class="calc-card" href="basic.html">
-            <span>🧮</span>
-            <h3>Basic Calculator</h3>
-            <p>Simple calculations with addition, subtraction, multiplication and division.</p>
-        </a>
-        
-        <a class="calc-card" href="age.html">
-                <span>🎂</span>
-                <h3>Age Calculator</h3>
-                <p>Calculate your age.</p>
-        </a>
-
-        <a class="popular-card" href="sip.html">
-            <div class="icon">💰</div>
-            <h3>SIP Calculator</h3>
-            <p>Estimate your SIP investment returns.</p>
-        </a>
-
-        <a class="popular-card" href="bmi.html">
-            <div class="icon">❤️</div>
-            <h3>BMI Calculator</h3>
-            <p>Calculate your Body Mass Index.</p>
-        </a>
-        
-        <a class="calc-card" href="length.html">
-            <span>📏</span>
-            <h3>Length Converter</h3>
-            <p>Convert length units.</p>
-        </a>
-        
-
-    </div>
+<h2 class="section-title">
+    ⭐ Popular Calculators
+</h2>
 
 
-    <!-- FINANCIAL -->
+<div class="popular">
 
-    <section class="category">
 
-        <h2>💰 Financial Calculators</h2>
+    <a class="popular-card" href="emi.html">
 
-        <div class="calculator-grid">
-
-            <a class="calc-card" href="emi.html">
-                <span>🏦</span>
-                <h3>EMI Calculator</h3>
-                <p>Calculate monthly EMI.</p>
-            </a>
-
-            <a class="calc-card" href="sip.html">
-                <span>📈</span>
-                <h3>SIP Calculator</h3>
-                <p>Calculate investment returns.</p>
-            </a>
-            
-            <a class="calc-card" href="loan.html">
-                <span>💳</span>
-                <h3>Loan Calculator</h3>
-                <p>Calculate loan payments.</p>
-            </a>
- 
-            <a class="calc-card" href="discount.html">
-                <span>🏷️</span>
-                <h3>Discount Calculator</h3>
-                <p>Calculate discount amount and final price.</p>
-            </a>
-
-            <a class="calc-card" href="gst.html">
-                <span>🧾</span>
-                <h3>GST Calculator</h3>
-                <p>Calculate GST amount and total price.</p>
-            </a>
-
-            <a class="calc-card" href="mortgage.html">
-                <span>🏠</span>
-                <h3>Mortgage Calculator</h3>
-                <p>Estimate mortgage payments.</p>
-            </a>
-
-            <a class="calc-card" href="income-tax.html">
-                <span>🧾</span>
-                <h3>Income Tax Calculator</h3>
-                <p>Estimate income tax.</p>
-            </a>
-
-            <a class="calc-card" href="compound-interest.html">
-                <span>💹</span>
-                <h3>Compound Interest</h3>
-                <p>Calculate compound growth.</p>
-            </a>
-
+        <div class="icon">
+            🏦
         </div>
 
-    </section>
+        <h3>
+            EMI Calculator
+        </h3>
+
+        <p>
+            Calculate monthly loan payments.
+        </p>
+
+    </a>
 
 
-    <!-- HEALTH -->
+    <a class="popular-card" href="basic.html">
 
-    <section class="category">
-
-        <h2>❤️ Health Calculators</h2>
-
-        <div class="calculator-grid">
-
-            <a class="calc-card" href="bmi.html">
-                <span>⚖️</span>
-                <h3>BMI Calculator</h3>
-                <p>Calculate Body Mass Index.</p>
-            </a>
-
-            <a class="calc-card" href="calorie.html">
-                <span>🔥</span>
-                <h3>Calorie Calculator</h3>
-                <p>Estimate daily calorie needs.</p>
-            </a>
-
-            <a class="calc-card" href="pregnancy.html">
-                <span>🤰</span>
-                <h3>Pregnancy Due Date</h3>
-                <p>Estimate a due date.</p>
-            </a>
-
-            <a class="calc-card" href="ideal-weight.html">
-                <span>🏋‍♂️</span>
-                <h3>Ideal Weight</h3>
-                <p>Estimate a healthy weight range.</p>
-            </a>
-
+        <div class="icon">
+            🧮
         </div>
 
-    </section>
+        <h3>
+            Basic Calculator
+        </h3>
+
+        <p>
+            Simple calculations with addition,
+            subtraction, multiplication and division.
+        </p>
+
+    </a>
 
 
-    <!-- MATH -->
+    <a class="popular-card" href="age.html">
 
-    <section class="category">
-
-        <h2>🧮 Math Calculators</h2>
-
-        <div class="calculator-grid">
-
-            <a class="calc-card" href="scientific.html">
-                <span>🔬</span>
-                <h3>Scientific Calculator</h3>
-                <p>Perform advanced calculations.</p>
-            </a>
-            
-            <a class="calc-card" href="basic.html">
-                <span>🧮</span>
-                <h3>Basic Calculator</h3>
-                <p>Simple calculations with addition, subtraction, multiplication and division.</p>
-            </a>
-            
-            <a class="calc-card" href="percentage.html">
-                <span>％</span>
-                <h3>Percentage Calculator</h3>
-                <p>Calculate percentages easily.</p>
-            </a>
-
-            <a class="calc-card" href="fraction.html">
-                <span>½</span>
-                <h3>Fraction Calculator</h3>
-                <p>Calculate fractions.</p>
-            </a>
-
-            <a class="calc-card" href="ratio.html">
-                <span>➗</span>
-                <h3>Ratio Calculator</h3>
-                <p>Calculate and simplify ratios.</p>
-            </a>
-
+        <div class="icon">
+            🎂
         </div>
 
-    </section>
+        <h3>
+            Age Calculator
+        </h3>
+
+        <p>
+            Calculate your age.
+        </p>
+
+    </a>
 
 
-    <!-- DATE -->
+    <a class="popular-card" href="sip.html">
 
-    <section class="category">
-
-        <h2>📅 Date Calculators</h2>
-
-        <div class="calculator-grid">
-
-            <a class="calc-card" href="age.html">
-                <span>🎂</span>
-                <h3>Age Calculator</h3>
-                <p>Calculate your age.</p>
-            </a>
-
-            <a class="calc-card" href="date-difference.html">
-                <span>📆</span>
-                <h3>Date Difference</h3>
-                <p>Find the difference between dates.</p>
-            </a>
-            
-            <a class="calc-card" href="date-add-subtract.html">
-                <span>📅</span>
-                <h3>Date Add/Subtract</h3>
-                <p>Add or subtract days from a date.</p>
-            </a>
-            
-            <a class="calc-card" href="countdown.html">
-                <span>⏳</span>
-                <h3>Countdown</h3>
-                <p>Count down to an important date.</p>
-            </a>
-
+        <div class="icon">
+            💰
         </div>
 
-    </section>
+        <h3>
+            SIP Calculator
+        </h3>
+
+        <p>
+            Estimate your SIP investment returns.
+        </p>
+
+    </a>
 
 
-    <!-- CONVERTERS -->
+    <a class="popular-card" href="bmi.html">
 
-    <section class="category">
-
-        <h2>🔄 Unit Converters</h2>
-
-        <div class="calculator-grid">
-
-            <a class="calc-card" href="length.html">
-                <span>📏</span>
-                <h3>Length Converter</h3>
-                <p>Convert length units.</p>
-            </a>
-
-            <a class="calc-card" href="weight.html">
-                <span>⚖️</span>
-                <h3>Weight Converter</h3>
-                <p>Convert weight units.</p>
-            </a>
-
-            <a class="calc-card" href="temperature.html">
-                <span>🌡️</span>
-                <h3>Temperature Converter</h3>
-                <p>Convert temperature units.</p>
-            </a>
-
-            <a class="calc-card" href="speed.html">
-                <span>🚗</span>
-                <h3>Speed Converter</h3>
-                <p>Convert speed units.</p>
-            </a>
-
+        <div class="icon">
+            ❤️
         </div>
 
-    </section>
+        <h3>
+            BMI Calculator
+        </h3>
+
+        <p>
+            Calculate your Body Mass Index.
+        </p>
+
+    </a>
+
+
+    <a class="popular-card" href="length.html">
+
+        <div class="icon">
+            📏
+        </div>
+
+        <h3>
+            Length Converter
+        </h3>
+
+        <p>
+            Convert length units.
+        </p>
+
+    </a>
+
+
+</div>
+
+
+
+<!-- =========================
+     FINANCIAL
+========================= -->
+
+<section class="category">
+
+<h2>
+    💰 Financial Calculators
+</h2>
+
+
+<div class="calculator-grid">
+
+
+<a class="calc-card" href="emi.html">
+
+    <span>🏦</span>
+
+    <h3>
+        EMI Calculator
+    </h3>
+
+    <p>
+        Calculate monthly EMI.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="sip.html">
+
+    <span>📈</span>
+
+    <h3>
+        SIP Calculator
+    </h3>
+
+    <p>
+        Calculate investment returns.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="loan.html">
+
+    <span>💳</span>
+
+    <h3>
+        Loan Calculator
+    </h3>
+
+    <p>
+        Calculate loan payments.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="discount.html">
+
+    <span>🏷️</span>
+
+    <h3>
+        Discount Calculator
+    </h3>
+
+    <p>
+        Calculate discount amount and final price.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="gst.html">
+
+    <span>🧾</span>
+
+    <h3>
+        GST Calculator
+    </h3>
+
+    <p>
+        Calculate GST amount and total price.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="mortgage.html">
+
+    <span>🏠</span>
+
+    <h3>
+        Mortgage Calculator
+    </h3>
+
+    <p>
+        Estimate mortgage payments.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="income-tax.html">
+
+    <span>🧾</span>
+
+    <h3>
+        Income Tax Calculator
+    </h3>
+
+    <p>
+        Estimate income tax.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="compound-interest.html">
+
+    <span>💹</span>
+
+    <h3>
+        Compound Interest
+    </h3>
+
+    <p>
+        Calculate compound growth.
+    </p>
+
+</a>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     HEALTH
+========================= -->
+
+<section class="category">
+
+<h2>
+    ❤️ Health Calculators
+</h2>
+
+
+<div class="calculator-grid">
+
+
+<a class="calc-card" href="bmi.html">
+
+    <span>⚖️</span>
+
+    <h3>
+        BMI Calculator
+    </h3>
+
+    <p>
+        Calculate Body Mass Index.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="calorie.html">
+
+    <span>🔥</span>
+
+    <h3>
+        Calorie Calculator
+    </h3>
+
+    <p>
+        Estimate daily calorie needs.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="pregnancy.html">
+
+    <span>🤰</span>
+
+    <h3>
+        Pregnancy Due Date
+    </h3>
+
+    <p>
+        Estimate a due date.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="ideal-weight.html">
+
+    <span>🏋️</span>
+
+    <h3>
+        Ideal Weight
+    </h3>
+
+    <p>
+        Estimate a healthy weight range.
+    </p>
+
+</a>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     MATH
+========================= -->
+
+<section class="category">
+
+<h2>
+    🧮 Math Calculators
+</h2>
+
+
+<div class="calculator-grid">
+
+
+<a class="calc-card" href="scientific.html">
+
+    <span>🔬</span>
+
+    <h3>
+        Scientific Calculator
+    </h3>
+
+    <p>
+        Perform advanced calculations.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="basic.html">
+
+    <span>🧮</span>
+
+    <h3>
+        Basic Calculator
+    </h3>
+
+    <p>
+        Simple calculations with addition,
+        subtraction, multiplication and division.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="percentage.html">
+
+    <span>％</span>
+
+    <h3>
+        Percentage Calculator
+    </h3>
+
+    <p>
+        Calculate percentages easily.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="fraction.html">
+
+    <span>½</span>
+
+    <h3>
+        Fraction Calculator
+    </h3>
+
+    <p>
+        Calculate fractions.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="ratio.html">
+
+    <span>➗</span>
+
+    <h3>
+        Ratio Calculator
+    </h3>
+
+    <p>
+        Calculate and simplify ratios.
+    </p>
+
+</a>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     DATE
+========================= -->
+
+<section class="category">
+
+<h2>
+    📅 Date Calculators
+</h2>
+
+
+<div class="calculator-grid">
+
+
+<a class="calc-card" href="age.html">
+
+    <span>🎂</span>
+
+    <h3>
+        Age Calculator
+    </h3>
+
+    <p>
+        Calculate your age.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="date-difference.html">
+
+    <span>📆</span>
+
+    <h3>
+        Date Difference
+    </h3>
+
+    <p>
+        Find the difference between dates.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="date-add-subtract.html">
+
+    <span>📅</span>
+
+    <h3>
+        Date Add/Subtract
+    </h3>
+
+    <p>
+        Add or subtract days from a date.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="countdown.html">
+
+    <span>⏳</span>
+
+    <h3>
+        Countdown
+    </h3>
+
+    <p>
+        Count down to an important date.
+    </p>
+
+</a>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     UNIT CONVERTERS
+========================= -->
+
+<section class="category">
+
+<h2>
+    🔄 Unit Converters
+</h2>
+
+
+<div class="calculator-grid">
+
+
+<a class="calc-card" href="length.html">
+
+    <span>📏</span>
+
+    <h3>
+        Length Converter
+    </h3>
+
+    <p>
+        Convert length units.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="weight.html">
+
+    <span>⚖️</span>
+
+    <h3>
+        Weight Converter
+    </h3>
+
+    <p>
+        Convert weight units.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="temperature.html">
+
+    <span>🌡️</span>
+
+    <h3>
+        Temperature Converter
+    </h3>
+
+    <p>
+        Convert temperature units.
+    </p>
+
+</a>
+
+
+<a class="calc-card" href="speed.html">
+
+    <span>🚗</span>
+
+    <h3>
+        Speed Converter
+    </h3>
+
+    <p>
+        Convert speed units.
+    </p>
+
+</a>
+
+
+</div>
+
+</section>
+
 
 </main>
 
 
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
-    <h2>🧮 SmartCalc</h2>
+<h2>
+    🧮 SmartCalc
+</h2>
 
-    <p>Free online calculators for everyone.</p>
+<p>
+    Free online calculators for everyone.
+</p>
 
-    <p>© 2026 SmartCalc</p>
+<p>
+    © 2026 SmartCalc
+</p>
 
 </footer>
 
 
+
+<!-- =========================
+     SEARCH SCRIPT
+========================= -->
+
 <script>
 
-function searchCalculators() {
+function searchCalculators(){
 
-    let search =
-        document.getElementById("search")
+    const search =
+        document
+        .getElementById("search")
         .value
+        .trim()
         .toLowerCase();
 
-    let cards =
-        document.querySelectorAll(".calc-card, .popular-card");
 
-    cards.forEach(function(card) {
+    const cards =
+        document.querySelectorAll(
+            ".calc-card, .popular-card"
+        );
 
-        let text =
+
+    const categories =
+        document.querySelectorAll(
+            ".category"
+        );
+
+
+    let visibleCount = 0;
+
+
+    cards.forEach(function(card){
+
+        const text =
             card.innerText.toLowerCase();
 
-        if (text.includes(search)) {
-            card.style.display = "";
-        } else {
-            card.style.display = "none";
+
+        const match =
+            text.includes(search);
+
+
+        card.style.display =
+            match ? "" : "none";
+
+
+        if(match){
+            visibleCount++;
         }
 
     });
+
+
+    categories.forEach(function(category){
+
+        const visibleCards =
+            category.querySelectorAll(
+                ".calc-card:not([style*='display: none'])"
+            );
+
+
+        category.style.display =
+            (search && visibleCards.length === 0)
+            ? "none"
+            : "";
+
+    });
+
+
+    const popularTitle =
+        document.querySelector(
+            ".section-title"
+        );
+
+
+    const popular =
+        document.querySelector(
+            ".popular"
+        );
+
+
+    if(popularTitle && popular){
+
+        const visiblePopular =
+            popular.querySelectorAll(
+                ".popular-card:not([style*='display: none'])"
+            );
+
+
+        popularTitle.style.display =
+            (search && visiblePopular.length === 0)
+            ? "none"
+            : "";
+
+
+        popular.style.display =
+            (search && visiblePopular.length === 0)
+            ? "none"
+            : "";
+
+    }
+
+
+    let noResults =
+        document.getElementById(
+            "noResults"
+        );
+
+
+    if(!noResults){
+
+        noResults =
+            document.createElement(
+                "div"
+            );
+
+
+        noResults.id =
+            "noResults";
+
+
+        noResults.className =
+            "no-results";
+
+
+        noResults.textContent =
+            "No calculator found. Try another search.";
+
+
+        document
+            .querySelector("main")
+            .appendChild(noResults);
+
+    }
+
+
+    noResults.style.display =
+        (search && visibleCount === 0)
+        ? "block"
+        : "none";
 
 }
 
 </script>
 
+
 </body>
-  </html
+</html>
