@@ -1,72 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/</loc>
   </url>
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/basic.html</loc>
   </url>
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/bmi.html</loc>
   </url>
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/calorie.html</loc>
   </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/compound-interest.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/contact.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/countdown.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/date-add-subtract.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/date-difference.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/disclaimer.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/discount.html</loc>
-  </url>
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/emi.html</loc>
   </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/fraction.html</loc>
-  </url>
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/gst.html</loc>
   </url>
-
-  <url>
-    <loc>https://ravulacharan767-blip.github.io/calc-Fans/ideal-weight.html</loc>
-  </url>
-
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/income-tax.html</loc>
   </url>
-
+  <url>
+    <loc>https://ravulacharan767-blip.github.io/calc-Fans/ideal-weight.html</loc>
+  </url>
   <url>
     <loc>https://ravulacharan767-blip.github.io/calc-Fans/length.html</loc>
   </url>
-
 </urlset>
